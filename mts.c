@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
   int trainCount = 0; //count to see how many trains are in the file
 
   //iterate through the file and create the trains
-  while (fgets(line, sizeof(line), trainFile)) {
+  while (fgets(line, sizeof(line), trainFile) ! NULL) {
 
   	printf("Error check 1\n");
     //allocate memory for the train
