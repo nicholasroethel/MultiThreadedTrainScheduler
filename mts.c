@@ -40,22 +40,21 @@ int main(int argc, char *argv[])
   while (fgets(line, sizeof(line), trainFile)) {
 
     //allocate memory for the train
-    struct Train* curr = NULL;
-    curr = (struct Train*)malloc(sizeof(struct Train)); 
+    struct Train *temp = ( struct Train * )malloc( sizeof( struct Train ) );
 
     //get the trains direction
     token = strtok(line, delim);
-    curr->direction = *token;
+    temp->direction = *token;
     printf( "%s ", token );
 
     //get the trains load time
     token = strtok(NULL, delim);
-    curr->loadTime = *token;
+    temp->loadTime = *token;
     printf( "%s ", token );
 
     //get the trains crossing time
     token = strtok(NULL, delim);
-    curr->crossTime = *token;
+    temp->crossTime = *token;
     printf( "%s \n", token );
 
     //increment train counter
