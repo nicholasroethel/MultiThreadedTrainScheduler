@@ -22,8 +22,7 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
   //setup for tokenization
   const char delim[2] = " ";
   char *token;
@@ -67,18 +66,18 @@ int main(int argc, char *argv[])
   int NUM_THREADS = trainCount;
 
 
- //  pthread_t threads[NUM_THREADS];
- //  int rc;
- //  long t;
- //  for(t=0;t<NUM_THREADS;t++){
- //   printf("In main: creating thread %ld\n", t);
- //   rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
- //   if (rc){
- //     printf("ERROR; return code from pthread_create() is %d\n", rc);
- //     exit(-1);
- //   }
- // }
+  pthread_t threads[NUM_THREADS];
+  int rc;
+  long t;
+  for(t=0;t<NUM_THREADS;t++){
+    printf("In main: creating thread %ld\n", t);
+      rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
+      if (rc){
+        printf("ERROR; return code from pthread_create() is %d\n", rc);
+        exit(-1);
+      }
+  }
 
-   /* Last thing that main() should do */
- //pthread_exit(NULL);
+/* Last thing that main() should do */
+ pthread_exit(NULL);
 }
