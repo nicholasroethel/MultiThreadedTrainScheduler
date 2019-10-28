@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
   int rc;
   long t;
 
-  int time = 5;
+  int time = 100;
 
   waitForTime(time);
 
