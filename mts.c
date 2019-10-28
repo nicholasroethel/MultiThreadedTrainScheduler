@@ -23,6 +23,10 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
+void loadTrain(struct Train train){
+  
+}
+
 void waitForTime(int seconds) //waits for the amount of seconds passed through
 { 
   printf("%d\n",seconds );
