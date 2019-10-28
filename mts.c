@@ -39,14 +39,11 @@ int main(int argc, char *argv[])
   //iterate through the file and create the trains
   while (fgets(line, sizeof(line), trainFile) != NULL) {
 
-  	printf("Error check 1\n");
     //allocate memory for the train
-    struct Train *temp = ( struct Train * )malloc( 5*sizeof( struct Train ) );
+    struct Train *temp = ( struct Train * )malloc( sizeof( struct Train ) );
 
-    printf("Error check 2\n");
     //get the trains direction
     token = strtok(line, delim);
-    printf("Error check 3\n");
     temp->direction = *token;
     printf( "%s ", token );
 
