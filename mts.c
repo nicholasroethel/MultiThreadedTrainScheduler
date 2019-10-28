@@ -30,6 +30,7 @@ void waitForTime(int seconds) //waits for the amount of seconds passed through
     int milliSeconds = (1000*seconds); 
     clock_t startTime = clock(); 
     while (clock() < startTime + milliSeconds){
+      printf("test\n");
       continue;
     } 
 } 
@@ -82,7 +83,7 @@ int main(int argc, char *argv[]){
   int rc;
   long t;
 
-  int time = 100;
+  int time = 10;
 
   waitForTime(time);
 
