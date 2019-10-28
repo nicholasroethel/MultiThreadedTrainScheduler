@@ -25,9 +25,11 @@ void *PrintHello(void *threadid)
 
 void waitForTime(int seconds) //waits for the amount of seconds passed through
 { 
-    int milliSeconds = 1000 * seconds; 
+    int milliSeconds = (1000*seconds); 
     clock_t startTime = clock(); 
-    while (clock() < startTime + milliSeconds); 
+    while (clock() < startTime + milliSeconds){
+      continue;
+    } 
 } 
 
 int main(int argc, char *argv[]){
