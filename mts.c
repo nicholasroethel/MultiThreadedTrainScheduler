@@ -28,7 +28,7 @@ void loadTrain(struct Train train){
   
 }
 
-struct loading addToLoadingQueue(struct loading *loadingHead, loading *loadingCurrent, tempTrain){
+struct loading addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading loadingNew = ( struct loading * )malloc( sizeof( struct List ) );
   loadingNew->train = tempTrain;
