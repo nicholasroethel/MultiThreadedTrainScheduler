@@ -28,6 +28,27 @@ void loadTrain(struct Train train){
   
 }
 
+struct loading addToLoadingQueue(struct loading *loadingHead, loading *loadingCurrent, tempTrain){
+
+  struct loading loadingNew = ( struct loading * )malloc( sizeof( struct List ) );
+  loadingNew->train = tempTrain;
+  loadingNew->next = NULL;
+
+  if(loadingHead == NULL){
+    loadingHead->Train = temp;
+    loadingHead->next = NULL;
+  }
+  else{
+    loadingCurrent = loadingHead;
+    while(loadingCurrent->next!=NULL){
+      loadingCurrent->next; 
+    }
+    loadingCurrent->next->loadingNew;
+  }
+
+  return loadingHead;
+}
+
 void waitForTime(int seconds) //waits for the amount of seconds passed through
 { 
   printf("%d\n",seconds );
@@ -50,34 +71,36 @@ int main(int argc, char *argv[]){
 
   int trainCount = 0; //count to see how many trains are in the file
 
+  //create the head and a current node for the loading queue 
   struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct List ) );
   loadingHead = NULL;
+  struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct List ) );
 
   //iterate through the file and create the trains
   while (fgets(line, sizeof(line), trainFile) != NULL) {
 
     //allocate memory for the train
-    struct Train *temp = ( struct Train * )malloc( sizeof( struct Train ) );
+    struct Train *tempTrain = ( struct Train * )malloc( sizeof( struct Train ) );
 
     //get the trains direction
     token = strtok(line, delim);
-    temp->direction = *token;
+    tempTrain->direction = *token;
     printf( "%s ", token );
 
     //get the trains load time
     token = strtok(NULL, delim);
-    temp->loadTime = *token;
+    tempTrain->loadTime = *token;
     printf( "%s ", token );
 
     //get the trains crossing time
     token = strtok(NULL, delim);
-    temp->crossTime = *token;
+    tempTrain->crossTime = *token;
     printf( "%s \n", token ); 
 
     //increment train counter
     trainCount++; 
 
-    //addToLoadingQueue(temp);
+    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,tempTrain);
     
   }
   //close the file
@@ -85,7 +108,6 @@ int main(int argc, char *argv[]){
 
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
-
 
   pthread_t threads[NUM_THREADS];
   int rc;
