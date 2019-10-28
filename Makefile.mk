@@ -1,8 +1,8 @@
 .phony all:
-all: mts
+	all: mts
 
 mts: mts.c
-	gcc mts.c -pthread -o mts -g 
+	gcc mts.c -o mts -pthread 
 
 .PHONY clean:
 clean:
