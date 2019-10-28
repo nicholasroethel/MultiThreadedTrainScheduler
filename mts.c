@@ -24,6 +24,7 @@ void *PrintHello(void *threadid)
 }
 
 void loadTrain(struct Train train){
+
   
 }
 
@@ -49,6 +50,9 @@ int main(int argc, char *argv[]){
 
   int trainCount = 0; //count to see how many trains are in the file
 
+  struct List loading *loadingHead = ( struct List * )malloc( sizeof( struct List ) );
+  loadingHead = NULL;
+
   //iterate through the file and create the trains
   while (fgets(line, sizeof(line), trainFile) != NULL) {
 
@@ -72,6 +76,8 @@ int main(int argc, char *argv[]){
 
     //increment train counter
     trainCount++; 
+
+    //addToLoadingQueue(temp);
     
   }
   //close the file
@@ -91,7 +97,7 @@ int main(int argc, char *argv[]){
 
   for(t=0;t<NUM_THREADS;t++){
     printf("In main: creating thread %ld\n", t);
-      rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
+      rc = pthread_create(&threads[t], NULL, loadTrain, (void *)t);
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
