@@ -23,7 +23,7 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
-void wait(int *seconds) //waits for the amount of seconds passed through
+void wait(int seconds) //waits for the amount of seconds passed through
 { 
     int milliSeconds = 1000 * seconds; 
     clock_t startTime = clock(); 
@@ -78,7 +78,9 @@ int main(int argc, char *argv[]){
   int rc;
   long t;
 
-  wait(5);
+  int time = 5;
+
+  wait(*time);
 
   for(t=0;t<NUM_THREADS;t++){
     printf("In main: creating thread %ld\n", t);
