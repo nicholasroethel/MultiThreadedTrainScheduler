@@ -80,7 +80,7 @@ int main(int argc, char *argv[]){
 
   int time = 5;
 
-  wait(*time);
+  wait(time);
 
   for(t=0;t<NUM_THREADS;t++){
     printf("In main: creating thread %ld\n", t);
