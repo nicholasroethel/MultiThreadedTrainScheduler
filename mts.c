@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     //get the trains crossing time
     token = strtok(NULL, delim);
     temp->crossTime = *token;
-    printf( "%s \n", token );
+    printf( "%s \n", token ); 
 
     //increment train counter
     trainCount++; 
