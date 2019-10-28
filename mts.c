@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h> 
 
 struct Train {  //struct for train queue
     char direction; 
@@ -21,6 +22,13 @@ void *PrintHello(void *threadid)
    printf("Hello World! It's me, thread #%ld!\n", tid);
  pthread_exit(NULL);
 }
+
+void wait(int seconds) //waits for the amount of seconds passed through
+{ 
+    int milliSeconds = 1000 * seconds; 
+    clock_t startTime = clock(); 
+    while (clock() < startTime + milliSeconds); 
+} 
 
 int main(int argc, char *argv[]){
   //setup for tokenization
@@ -69,6 +77,9 @@ int main(int argc, char *argv[]){
   pthread_t threads[NUM_THREADS];
   int rc;
   long t;
+
+  wait(5);
+    
   for(t=0;t<NUM_THREADS;t++){
     printf("In main: creating thread %ld\n", t);
       rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
