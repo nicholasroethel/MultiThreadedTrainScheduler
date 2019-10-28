@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define NUM_THREADS	10
 
 struct Train {  //struct for train queue
     char direction; 
@@ -63,6 +62,9 @@ int main(int argc, char *argv[])
   }
   //close the file
   fclose(trainFile);
+
+  //the amount of threads for the train
+  int NUM_THREADS = trainCount;
 
 
  //  pthread_t threads[NUM_THREADS];
