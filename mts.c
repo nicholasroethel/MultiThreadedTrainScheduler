@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
 
   int trainCount = 0; //count to see how many trains are in the file
 
-  struct List loading *loadingHead = ( struct List * )malloc( sizeof( struct List ) );
+  struct loading *loadingHead = ( struct List * )malloc( sizeof( struct List ) );
   loadingHead = NULL;
 
   //iterate through the file and create the trains
