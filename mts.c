@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
   	printf("Error check 1\n");
     //allocate memory for the train
-    struct Train *temp = ( struct Train * )malloc( sizeof( struct Train ) );
+    struct Train *temp = ( struct Train * )malloc( 5*sizeof( struct Train ) );
 
     printf("Error check 2\n");
     //get the trains direction
