@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
   fclose(trainFile);
 
   //the amount of threads for the train
-  int NUM_THREADS = trainCount;
+ // int NUM_THREADS = trainCount;
 
 
  //  pthread_t threads[NUM_THREADS];
