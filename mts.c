@@ -50,8 +50,8 @@ int main(int argc, char *argv[]){
 
   int trainCount = 0; //count to see how many trains are in the file
 
-  struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct List ) );
-  loadingHead = NULL;
+  //struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct List ) );
+  //loadingHead = NULL;
 
   //iterate through the file and create the trains
   while (fgets(line, sizeof(line), trainFile) != NULL) {
