@@ -105,7 +105,7 @@ int main(int argc, char *argv[]){
   FILE* trainFile = fopen(fileName, "r"); 
   char line[256];
 
-  int trainCount = 0; //count to see how many trains are in the file
+  pthread_t trainCount = 0; //count to see how many trains are in the file
 
   //create the head and a current node for the loading queue 
   struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct loading) );
