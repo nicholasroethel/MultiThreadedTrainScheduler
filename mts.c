@@ -116,7 +116,7 @@ int main(int argc, char *argv[]){
     //increment train counter
     trainCount++;
 
-    tempTrain->id = trainCount
+    tempTrain->id = trainCount;
 
     //get the trains direction
     token = strtok(line, delim);
