@@ -117,7 +117,7 @@ int main(int argc, char *argv[]){
     trainCount++;
 
     tempTrain->id = trainCount;
-    printf("%d",trainCount);
+    printf("%d ",trainCount);
 
     //get the trains direction
     token = strtok(line, delim);
@@ -132,7 +132,7 @@ int main(int argc, char *argv[]){
     //get the trains crossing time
     token = strtok(NULL, delim);
     tempTrain->crossTime = atoi(token);
-    printf( "%s \n", token ); 
+    printf( "%s", token ); 
  
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     
