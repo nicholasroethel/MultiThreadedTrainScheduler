@@ -5,7 +5,7 @@
 #include <time.h> 
 
 typedef struct Train {  //struct for train queue
-    pthread_t id;
+    int id;
     char direction; 
     int loadTime;
     int crossTime;
@@ -46,13 +46,13 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   loadingCurrent = loadingHead;
 
-  //printf("%d ",(loadingCurrent->train.id));
+  printf("%d ",(loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
   printf("%d ",(loadingCurrent->train.loadTime));
   printf("%d\n",loadingCurrent->train.crossTime);
   while(loadingCurrent->next != NULL){
     loadingCurrent = loadingCurrent->next;
-    //printf("%d ",(loadingCurrent->train.id));
+    printf("%d ",(loadingCurrent->train.id));
     printf("%c ",loadingCurrent->train.direction);
     printf("%d ",loadingCurrent->train.loadTime);
     printf("%d\n",loadingCurrent->train.crossTime);
@@ -105,7 +105,7 @@ int main(int argc, char *argv[]){
   FILE* trainFile = fopen(fileName, "r"); 
   char line[256];
 
-  pthread_t trainCount = 0; //count to see how many trains are in the file
+  int trainCount = 0; //count to see how many trains are in the file
 
   //create the head and a current node for the loading queue 
   struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct loading) );
@@ -124,7 +124,7 @@ int main(int argc, char *argv[]){
     trainCount++;
 
     tempTrain->id = trainCount;
-    //printf("%d ",trainCount);
+    printf("%d ",trainCount);
 
     //get the trains direction
     token = strtok(line, delim);
@@ -166,7 +166,7 @@ int main(int argc, char *argv[]){
   t = 1;
   while(loadingCurrent->next !=NULL){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(&loadingCurrent->train.id, NULL, waitForTime(loadingCurrent->train.loadTime), (void *)t);
+    rc = pthread_create(&threads[t], NULL, waitForTime(loadingCurrent->train.loadTime), (void *)t);
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
@@ -174,7 +174,7 @@ int main(int argc, char *argv[]){
     loadingCurrent = loadingCurrent->next;
     t++;
   }
-  pthread_join(threads[t],NULL);
+  pthread_join(&threads[t],NULL);
 
   // for(t=0;t<NUM_THREADS;t++){
   //   printf("In main: creating thread %ld\n", t);
