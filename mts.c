@@ -157,10 +157,6 @@ int main(int argc, char *argv[]){
   int rc;
   long t;
 
-  int time = 10;
-
-  waitForTime(time);
-
   loadingCurrent = loadingHead;
 
   t = 0;
