@@ -6,8 +6,8 @@
 
 typedef struct Train {  //struct for train queue
     char direction; 
-    int loadTime;
-    int crossTime;
+    char loadTime;
+    char crossTime;
 }Train;
 
 typedef struct loading {  //struct for train queue
