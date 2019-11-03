@@ -42,7 +42,7 @@ void loadTrain(struct Train train){
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
   loadingCurrent = loadingHead;
   printf("Train\n");
-  printf("%c",*(loadingCurrent->train->direction));
+  printf("%c",&(loadingCurrent->train->direction));
   printf("%d",loadingCurrent->train->loadTime);
   printf("%d\n",loadingCurrent->train->crossTime);
   while(loadingCurrent->next != NULL){
