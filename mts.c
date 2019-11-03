@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h> 
 
-#define INT2VOIDP(i) (void*)(uintptr_t)(i)
+#define INT2VOIDP(i) (void*)(intptr_t)(i)
 
 typedef struct Train {  //struct for train queue
     int id;
