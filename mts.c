@@ -171,11 +171,10 @@ int main(int argc, char *argv[]){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
-    pthread_join(threads[t],NULL);
     loadingCurrent = loadingCurrent->next;
     t++;
   }
-
+  pthread_join(threads[t],NULL);
 
   // for(t=0;t<NUM_THREADS;t++){
   //   printf("In main: creating thread %ld\n", t);
