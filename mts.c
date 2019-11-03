@@ -172,7 +172,7 @@ int main(int argc, char *argv[]){
         exit(-1);
     }
     loadingCurrent = loadingCurrent->next;
-    pthread_join(&threads[t],NULL);
+    pthread_join(threads[t],NULL);
     t++;
   }
 
