@@ -84,7 +84,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
   return loadingHead;
 }
 
-void* waitForTime(int seconds) //waits for the amount of seconds passed through
+void* waitForTime(int seconds, void * arg) //waits for the amount of seconds passed through
 { 
     printf("Waiting for %d seconds\n",seconds);
     int milliSeconds = (1000*seconds); 
@@ -179,7 +179,7 @@ int main(int argc, char *argv[]){
 
   for(t=0;t<NUM_THREADS;t++){
     printf("In main: creating thread %ld\n", t);
-      rc = pthread_create(&threads[t], NULL, waitForTime(), 5);
+      rc = pthread_create(&threads[t], NULL, waitForTime(5), (void *)t);
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
