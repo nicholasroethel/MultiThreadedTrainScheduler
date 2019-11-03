@@ -162,7 +162,7 @@ int main(int argc, char *argv[]){
   loadingCurrent = loadingHead;
 
   t = 1;
-  while(loadingCurrent->next !=NULL){
+  while(1){
     printf("In main: creating thread %ld\n", t);
     rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
       if (rc){
@@ -171,6 +171,9 @@ int main(int argc, char *argv[]){
     }
     loadingCurrent = loadingCurrent->next;
     t++;
+    if(loadingCurrent->next !=NULL){
+      break;
+    }
   }
   //pthread_join(threads[t],NULL);
 
