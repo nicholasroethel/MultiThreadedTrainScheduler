@@ -11,7 +11,7 @@ typedef struct Train {  //struct for train queue
 }Train;
 
 typedef struct loading {  //struct for train queue
-    struct Train* train;
+    struct Train train;
     struct loading* next; 
 }loading;
 
@@ -41,7 +41,7 @@ void loadTrain(struct Train train){
 
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
   loadingCurrent = loadingHead;
-  printf("%c",&(loadingCurrent->train->direction));
+  printf("%c",loadingCurrent->train->direction);
   printf("%d",loadingCurrent->train->loadTime);
   printf("%d\n",loadingCurrent->train->crossTime);
   while(loadingCurrent->next != NULL){
