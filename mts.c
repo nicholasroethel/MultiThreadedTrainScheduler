@@ -11,12 +11,12 @@ typedef struct Train {  //struct for train queue
 }Train;
 
 typedef struct loading {  //struct for train queue
-    struct Train* train;
+    struct Train train;
     struct loading* next; 
 }loading;
 
 typedef struct eastTrain{  //struct for train queue
-    struct Train train;
+    struct Train* train;
     struct eastTrain* next; 
 }eastTrain;
 
