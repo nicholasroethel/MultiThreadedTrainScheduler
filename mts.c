@@ -152,6 +152,7 @@ int main(int argc, char *argv[]){
 
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
+  printf("%d\n",NUM_THREADS);
 
   pthread_t threads[NUM_THREADS];
   int rc;
