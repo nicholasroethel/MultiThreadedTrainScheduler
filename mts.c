@@ -41,6 +41,9 @@ void loadTrain(struct Train train){
 }
 
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
+
+  printf("Trains in Loading Queue:\n");
+
   loadingCurrent = loadingHead;
 
   printf("%d ",(loadingCurrent->train.id));
@@ -107,6 +110,8 @@ int main(int argc, char *argv[]){
   loadingHead = NULL;
   struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct loading ) );
 
+  printf("Trains Read:\n");
+
   //iterate through the file and create the trains
   while (fgets(line, sizeof(line), trainFile) != NULL) {
 
@@ -137,6 +142,7 @@ int main(int argc, char *argv[]){
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     
   }
+  printf( "\n");
   printLoading(loadingHead,loadingCurrent);
   //close the file
   fclose(trainFile);
