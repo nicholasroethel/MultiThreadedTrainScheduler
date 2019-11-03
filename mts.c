@@ -4,6 +4,8 @@
 #include <string.h>
 #include <time.h> 
 
+#define INT2VOIDP(i) (void*)(uintptr_t)(i)
+
 typedef struct Train {  //struct for train queue
     int id;
     char direction; 
@@ -163,7 +165,7 @@ int main(int argc, char *argv[]){
   t = 0;
   while(loadingCurrent->next !=NULL){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(&threads[t], NULL, waitForTime, (void *)(loadingCurrent->train.loadTime));
+    rc = pthread_create(&threads[t], NULL, waitForTime, INT2VOIDP(loadingCurrent->train.loadTime));
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
