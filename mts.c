@@ -8,10 +8,10 @@
 #define INT2VOIDP(i) (void*)(uintptr_t)(i)
 
 typedef struct Train {  //struct for train queue
-    long int id;
+    int id;
     char direction; 
-    int loadTime;
-    int crossTime;
+    long int loadTime;
+    long int crossTime;
 }Train;
 
 typedef struct loading {  //struct for train queue
@@ -51,14 +51,14 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   printf("%d ",(loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
-  printf("%d ",(loadingCurrent->train.loadTime));
-  printf("%d\n",loadingCurrent->train.crossTime);
+  printf("%ld ",(loadingCurrent->train.loadTime));
+  printf("%ld\n",loadingCurrent->train.crossTime);
   while(loadingCurrent->next != NULL){
     loadingCurrent = loadingCurrent->next;
     printf("%d ",(loadingCurrent->train.id));
     printf("%c ",loadingCurrent->train.direction);
-    printf("%d ",loadingCurrent->train.loadTime);
-    printf("%d\n",loadingCurrent->train.crossTime);
+    printf("%ld ",loadingCurrent->train.loadTime);
+    printf("%ld\n",loadingCurrent->train.crossTime);
 
   }
 
