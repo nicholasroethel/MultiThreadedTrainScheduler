@@ -46,13 +46,13 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   loadingCurrent = loadingHead;
 
-  printf("%d ",(*loadingCurrent->train.id));
+  //printf("%d ",(loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
   printf("%d ",(loadingCurrent->train.loadTime));
   printf("%d\n",loadingCurrent->train.crossTime);
   while(loadingCurrent->next != NULL){
     loadingCurrent = loadingCurrent->next;
-    printf("%d ",(loadingCurrent->train.id));
+    //printf("%d ",(loadingCurrent->train.id));
     printf("%c ",loadingCurrent->train.direction);
     printf("%d ",loadingCurrent->train.loadTime);
     printf("%d\n",loadingCurrent->train.crossTime);
@@ -124,7 +124,7 @@ int main(int argc, char *argv[]){
     trainCount++;
 
     tempTrain->id = trainCount;
-    printf("%d ",trainCount);
+    //printf("%d ",trainCount);
 
     //get the trains direction
     token = strtok(line, delim);
