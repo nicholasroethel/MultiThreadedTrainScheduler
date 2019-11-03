@@ -169,11 +169,11 @@ int main(int argc, char *argv[]){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
-    loadingCurrent = loadingCurrent->next;
-    t++;
     if(loadingCurrent->next ==NULL){
       break;
     }
+    loadingCurrent = loadingCurrent->next;
+    t++;
   }
   //pthread_join(threads[t],NULL);
 
