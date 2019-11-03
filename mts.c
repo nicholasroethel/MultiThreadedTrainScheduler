@@ -4,13 +4,13 @@
 #include <string.h>
 #include <time.h> 
 
-typedef Train struct Train {  //struct for train queue
+struct Train {  //struct for train queue
     char direction; 
     int loadTime;
     int crossTime;
 };
 
-typedef struct List {  //struct for train queue
+struct List {  //struct for train queue
     struct Train* train;
     struct Node* next; 
 } loading, eastTrain, westTrain, track;
