@@ -42,7 +42,7 @@ void loadTrain(struct Train train){
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
   loadingCurrent = loadingHead;
   printf("Train\n");
-  printf("%c",&&(loadingCurrent->train->direction));
+  printf("%c",(loadingCurrent->train->direction));
   printf("%d",loadingCurrent->train->loadTime);
   printf("%d\n",loadingCurrent->train->crossTime);
   while(loadingCurrent->next != NULL){
@@ -58,7 +58,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
-  loadingNew->train = &tempTrain;
+  loadingNew->train = *tempTrain;
   loadingNew->next = NULL;
 
   if(loadingHead == NULL){
