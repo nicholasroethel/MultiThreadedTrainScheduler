@@ -163,7 +163,7 @@ int main(int argc, char *argv[]){
   t = 0;
   while(loadingCurrent->next !=NULL){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(&threads[t], NULL, waitForTime, (void *)loadingCurrent->train.loadTime);
+    rc = pthread_create(&threads[t], NULL, waitForTime, (void *)(loadingCurrent->train.loadTime));
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
