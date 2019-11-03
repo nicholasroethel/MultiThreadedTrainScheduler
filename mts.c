@@ -3,15 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h> 
-#include <stdint.h>
 
 #define INT2VOIDP(i) (void*)(uintptr_t)(i)
 
 typedef struct Train {  //struct for train queue
     int id;
     char direction; 
-    long int loadTime;
-    long int crossTime;
+    int loadTime;
+    int crossTime;
 }Train;
 
 typedef struct loading {  //struct for train queue
@@ -51,14 +50,14 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   printf("%d ",(loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
-  printf("%ld ",(loadingCurrent->train.loadTime));
-  printf("%ld\n",loadingCurrent->train.crossTime);
+  printf("%d ",(loadingCurrent->train.loadTime));
+  printf("%d\n",loadingCurrent->train.crossTime);
   while(loadingCurrent->next != NULL){
     loadingCurrent = loadingCurrent->next;
     printf("%d ",(loadingCurrent->train.id));
     printf("%c ",loadingCurrent->train.direction);
-    printf("%ld ",loadingCurrent->train.loadTime);
-    printf("%ld\n",loadingCurrent->train.crossTime);
+    printf("%d ",loadingCurrent->train.loadTime);
+    printf("%d\n",loadingCurrent->train.crossTime);
 
   }
 
@@ -89,8 +88,8 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 void* waitForTime(void* arg) //waits for the amount of seconds passed through
 { 
-    long int seconds = *(long int *)arg;
-    printf("Waiting for %ld seconds\n",seconds);
+    int seconds = (int)arg;
+    printf("Waiting for %d seconds\n",seconds);
     int milliSeconds = (1000*seconds); 
     clock_t startTime = clock(); 
     while (clock() < startTime + milliSeconds){
@@ -166,7 +165,7 @@ int main(int argc, char *argv[]){
   t = 0;
   while(loadingCurrent->next !=NULL){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(&threads[t], NULL, waitForTime, INT2VOIDP(loadingCurrent->train.loadTime));
+    rc = pthread_create(&threads[t], NULL, PrintHello, void *t);
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
