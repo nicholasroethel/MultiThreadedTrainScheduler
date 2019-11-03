@@ -144,6 +144,7 @@ int main(int argc, char *argv[]){
   }
   printf( "\n");
   printLoading(loadingHead,loadingCurrent);
+
   //close the file
   fclose(trainFile);
 
@@ -158,14 +159,26 @@ int main(int argc, char *argv[]){
 
   waitForTime(time);
 
-  for(t=0;t<NUM_THREADS;t++){
+  loadingCurrent = loadingHead;
+
+  t = 1;
+  while(loadingCurrent->next !=NULL){
     printf("In main: creating thread %ld\n", t);
-      rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
+    rc = pthread_create(&threads[t], NULL, waitForTime(loadingCurrent.loadTime), (void *)t);
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
-      }
+    t++;
   }
+
+  // for(t=0;t<NUM_THREADS;t++){
+  //   printf("In main: creating thread %ld\n", t);
+  //     rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
+  //     if (rc){
+  //       printf("ERROR; return code from pthread_create() is %d\n", rc);
+  //       exit(-1);
+  //     }
+  // }
 
 /* Last thing that main() should do */
  pthread_exit(NULL);
