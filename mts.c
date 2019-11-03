@@ -117,6 +117,7 @@ int main(int argc, char *argv[]){
     trainCount++;
 
     tempTrain->id = trainCount;
+    printf("%d",trainCount);
 
     //get the trains direction
     token = strtok(line, delim);
