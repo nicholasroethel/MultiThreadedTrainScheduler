@@ -8,7 +8,7 @@
 #define INT2VOIDP(i) (void*)(uintptr_t)(i)
 
 typedef struct Train {  //struct for train queue
-    int id;
+    long int id;
     char direction; 
     int loadTime;
     int crossTime;
