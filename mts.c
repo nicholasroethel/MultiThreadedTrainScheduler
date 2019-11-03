@@ -120,7 +120,7 @@ int main(int argc, char *argv[]){
     //get the trains load time
     token = strtok(NULL, delim);
     tempTrain->loadTime = *token;
-    printf("%d ",*token );
+    printf("%d ",atoi(*token));
     printf( "%s ", token );
 
     //get the trains crossing time
