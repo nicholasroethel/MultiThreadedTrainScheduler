@@ -174,6 +174,7 @@ int main(int argc, char *argv[]){
     loadingCurrent = loadingCurrent->next;
     t++;
   }
+  phtread_join(threads[t],NULL);
 
   // for(t=0;t<NUM_THREADS;t++){
   //   printf("In main: creating thread %ld\n", t);
