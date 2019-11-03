@@ -6,8 +6,8 @@
 
 typedef struct Train {  //struct for train queue
     char direction; 
-    char loadTime;
-    char crossTime;
+    int loadTime;
+    int crossTime;
 }Train;
 
 typedef struct loading {  //struct for train queue
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]){
     //get the trains crossing time
     token = strtok(NULL, delim);
     tempTrain.crossTime = *token;
-    tempTrain.crossTime = token;
+    tempTrain.Time = token;
     printf( "%s \n", token ); 
 
     //increment train counter
