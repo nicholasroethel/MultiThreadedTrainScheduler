@@ -16,7 +16,7 @@ typedef struct loading {  //struct for train queue
 }loading;
 
 typedef struct eastTrain{  //struct for train queue
-    struct Train* train;
+    struct Train train;
     struct eastTrain* next; 
 }eastTrain;
 
