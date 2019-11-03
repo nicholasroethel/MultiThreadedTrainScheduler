@@ -126,7 +126,7 @@ int main(int argc, char *argv[]){
     //increment train counter
     trainCount++; 
 
-    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
+    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,tempTrain);
     
   }
   printLoading(loadingHead,loadingCurrent);
