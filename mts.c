@@ -171,7 +171,7 @@ int main(int argc, char *argv[]){
     }
     loadingCurrent = loadingCurrent->next;
     t++;
-    if(loadingCurrent->next !=NULL){
+    if(loadingCurrent->next ==NULL){
       break;
     }
   }
