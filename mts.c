@@ -5,6 +5,7 @@
 #include <time.h> 
 
 typedef struct Train {  //struct for train queue
+    int id;
     char direction; 
     int loadTime;
     int crossTime;
@@ -42,11 +43,13 @@ void loadTrain(struct Train train){
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
   loadingCurrent = loadingHead;
 
+  printf("%d ",(loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
   printf("%d ",(loadingCurrent->train.loadTime));
   printf("%d\n",loadingCurrent->train.crossTime);
   while(loadingCurrent->next != NULL){
     loadingCurrent = loadingCurrent->next;
+    printf("%d ",(loadingCurrent->train.id));
     printf("%c ",loadingCurrent->train.direction);
     printf("%d ",loadingCurrent->train.loadTime);
     printf("%d\n",loadingCurrent->train.crossTime);
@@ -58,6 +61,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
+  loadingNew->train.id = tempTrain.id;
   loadingNew->train.direction = tempTrain.direction;
   loadingNew->train.loadTime = tempTrain.loadTime;
   loadingNew->train.crossTime = tempTrain.crossTime;
@@ -109,6 +113,11 @@ int main(int argc, char *argv[]){
     //allocate memory for the train
     struct Train *tempTrain = ( struct Train * )malloc( sizeof( struct Train ) );
 
+    //increment train counter
+    trainCount++;
+
+    tempTrain->id = trainCount
+
     //get the trains direction
     token = strtok(line, delim);
     tempTrain->direction = *token;
@@ -123,10 +132,7 @@ int main(int argc, char *argv[]){
     token = strtok(NULL, delim);
     tempTrain->crossTime = atoi(token);
     printf( "%s \n", token ); 
-
-    //increment train counter
-    trainCount++; 
-
+ 
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     
   }
