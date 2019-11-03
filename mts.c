@@ -10,10 +10,21 @@ typedef struct Train {  //struct for train queue
     int crossTime;
 }Train;
 
-typedef struct List {  //struct for train queue
+typedef struct loading {  //struct for train queue
     struct Train* train;
-    struct Node* next; 
-} loading, eastTrain, westTrain, track;
+    struct loading* next; 
+}loading;
+
+typedef struct eastTrain{  //struct for train queue
+    struct Train* train;
+    struct eastTrain* next; 
+}eastTrain;
+
+typedef struct westTrain{  //struct for train queue
+    struct Train* train;
+    struct eastTrain* next; 
+}westTrain;
+
 
 void *PrintHello(void *threadid)
 {
@@ -28,22 +39,36 @@ void loadTrain(struct Train train){
   
 }
 
+void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
+  loadingCurrent = loadingHead;
+  printf("%c",loadingCurrent->train->direction);
+  printf("%d",loadingCurrent->train->loadTime);
+  printf("%d\n",loadingCurrent->train->crossTime);
+  while(loadingCurrent->next != NULL){
+    loadingCurrent = loadingCurrent->next;
+    printf("%c",loadingCurrent->train->direction);
+    printf("%d",loadingCurrent->train->loadTime);
+    printf("%d\n",loadingCurrent->train->crossTime);
+
+  }
+
+}
+
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
-  struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct List ) );
-  loadingNew->train = tempTrain;
+  struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
+  loadingNew->train = &tempTrain;
   loadingNew->next = NULL;
 
   if(loadingHead == NULL){
-    loadingHead->Train = temp;
-    loadingHead->next = NULL;
+    loadingHead = loadingNew;
   }
   else{
     loadingCurrent = loadingHead;
     while(loadingCurrent->next!=NULL){
-      loadingCurrent->next; 
+      loadingCurrent = loadingCurrent->next; 
     }
-    loadingCurrent->next->loadingNew;
+    loadingCurrent->next = loadingNew;
   }
 
   return loadingHead;
@@ -72,9 +97,9 @@ int main(int argc, char *argv[]){
   int trainCount = 0; //count to see how many trains are in the file
 
   //create the head and a current node for the loading queue 
-  struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct List ) );
+  struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct loading) );
   loadingHead = NULL;
-  struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct List ) );
+  struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct loading ) );
 
   //iterate through the file and create the trains
   while (fgets(line, sizeof(line), trainFile) != NULL) {
@@ -103,6 +128,7 @@ int main(int argc, char *argv[]){
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     
   }
+  printLoading(loadingHead,loadingCurrent);
   //close the file
   fclose(trainFile);
 
