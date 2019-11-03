@@ -57,7 +57,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
-  loadingNew->train = &tempTrain;
+  loadingNew->train = tempTrain;
   loadingNew->next = NULL;
 
   if(loadingHead == NULL){
@@ -109,23 +109,23 @@ int main(int argc, char *argv[]){
 
     //get the trains direction
     token = strtok(line, delim);
-    tempTrain->direction = *token;
+    tempTrain->direction = token;
     printf( "%s ", token );
 
     //get the trains load time
     token = strtok(NULL, delim);
-    tempTrain->loadTime = *token;
+    tempTrain->loadTime = token;
     printf( "%s ", token );
 
     //get the trains crossing time
     token = strtok(NULL, delim);
-    tempTrain->crossTime = *token;
+    tempTrain->crossTime = token;
     printf( "%s \n", token ); 
 
     //increment train counter
     trainCount++; 
 
-    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
+    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,tempTrain);
     
   }
   printLoading(loadingHead,loadingCurrent);
