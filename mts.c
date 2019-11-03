@@ -11,7 +11,7 @@ typedef struct Train {  //struct for train queue
 }Train;
 
 typedef struct loading {  //struct for train queue
-    struct Train train;
+    struct Train* train;
     struct loading* next; 
 }loading;
 
@@ -57,7 +57,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
-  loadingNew->train = tempTrain;
+  loadingNew->train = &tempTrain;
   loadingNew->next = NULL;
 
   if(loadingHead == NULL){
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]){
     //increment train counter
     trainCount++; 
 
-    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,tempTrain);
+    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     
   }
   printLoading(loadingHead,loadingCurrent);
