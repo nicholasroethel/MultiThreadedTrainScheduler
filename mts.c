@@ -46,7 +46,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   loadingCurrent = loadingHead;
 
-  printf("%d ",(loadingCurrent->train.id));
+  printf("%d ",(&loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
   printf("%d ",(loadingCurrent->train.loadTime));
   printf("%d\n",loadingCurrent->train.crossTime);
@@ -166,7 +166,7 @@ int main(int argc, char *argv[]){
   t = 1;
   while(loadingCurrent->next !=NULL){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(loadingCurrent->train.id, NULL, waitForTime(loadingCurrent->train.loadTime), (void *)t);
+    rc = pthread_create(&loadingCurrent->train.id, NULL, waitForTime(loadingCurrent->train.loadTime), (void *)t);
       if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
