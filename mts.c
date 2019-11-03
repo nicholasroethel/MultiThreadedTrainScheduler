@@ -109,7 +109,7 @@ int main(int argc, char *argv[]){
   while (fgets(line, sizeof(line), trainFile) != NULL) {
 
     //allocate memory for the train
-    struct Train tempTrain = ( struct Train * )malloc( sizeof( struct Train ) );
+    struct Train tempTrain = ( struct Train  )malloc( sizeof( struct Train ) );
 
     //get the trains direction
     token = strtok(line, delim);
