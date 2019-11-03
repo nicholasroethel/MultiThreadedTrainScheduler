@@ -120,13 +120,13 @@ int main(int argc, char *argv[]){
     //get the trains load time
     token = strtok(NULL, delim);
     tempTrain->loadTime = *token;
-    printf("%s ",*token );
+    printf("%d ",*token );
     printf( "%s ", token );
 
     //get the trains crossing time
     token = strtok(NULL, delim);
     tempTrain->crossTime = *token;
-    printf("%s ",*token );
+    printf("%d ",*token );
     printf( "%s \n", token ); 
 
     //increment train counter
