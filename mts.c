@@ -114,19 +114,16 @@ int main(int argc, char *argv[]){
     //get the trains direction
     token = strtok(line, delim);
     tempTrain->direction = *token;
-
     printf( "%s ", token );
 
     //get the trains load time
     token = strtok(NULL, delim);
-    tempTrain->loadTime = *token;
-    printf("%d ",atoi(token));
+    tempTrain->loadTime = atoi(token);
     printf( "%s ", token );
 
     //get the trains crossing time
     token = strtok(NULL, delim);
-    tempTrain->crossTime = *token;
-    printf("%d ",*token );
+    tempTrain->crossTime = atoi(token);
     printf( "%s \n", token ); 
 
     //increment train counter
