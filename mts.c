@@ -91,14 +91,15 @@ void* waitForTime(void* arg) //waits for the amount of seconds passed through
 { 
     long seconds;
     seconds = (long)arg;
+    printf("Waiting for %ld seconds\n",seconds);
     sleep(seconds);
-    // printf("Waiting for %ld seconds\n",seconds);
+    printf("Waited for %ld seconds\n",seconds);
     // long int milliSeconds = (1000*seconds); 
     // clock_t startTime = clock(); 
     // while (clock() < startTime + milliSeconds){
     //   //do nothing
     // }
-    // return NULL; 
+    return NULL; 
 } 
 
 int main(int argc, char *argv[]){
