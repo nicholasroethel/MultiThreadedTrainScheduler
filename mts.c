@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h> 
 
-typedef struct Train {  //struct for train queue
+typedef Train struct Train {  //struct for train queue
     char direction; 
     int loadTime;
     int crossTime;
