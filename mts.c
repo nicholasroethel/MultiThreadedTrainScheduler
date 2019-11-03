@@ -46,7 +46,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   loadingCurrent = loadingHead;
 
-  printf("%d ",(&loadingCurrent->train.id));
+  printf("%d ",(*loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
   printf("%d ",(loadingCurrent->train.loadTime));
   printf("%d\n",loadingCurrent->train.crossTime);
