@@ -7,10 +7,10 @@
 #define INT2VOIDP(i) (void*)(uintptr_t)(i)
 
 typedef struct Train {  //struct for train queue
-    int id;
+    long int id;
     char direction; 
-    int loadTime;
-    int crossTime;
+    long int loadTime;
+    long int crossTime;
 }Train;
 
 typedef struct loading {  //struct for train queue
@@ -48,16 +48,16 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   loadingCurrent = loadingHead;
 
-  printf("%d ",(loadingCurrent->train.id));
+  printf("%ld ",(loadingCurrent->train.id));
   printf("%c ",(loadingCurrent->train.direction));
-  printf("%d ",(loadingCurrent->train.loadTime));
-  printf("%d\n",loadingCurrent->train.crossTime);
+  printf("%ld ",(loadingCurrent->train.loadTime));
+  printf("%ld\n",loadingCurrent->train.crossTime);
   while(loadingCurrent->next != NULL){
     loadingCurrent = loadingCurrent->next;
-    printf("%d ",(loadingCurrent->train.id));
+    printf("%ld ",(loadingCurrent->train.id));
     printf("%c ",loadingCurrent->train.direction);
-    printf("%d ",loadingCurrent->train.loadTime);
-    printf("%d\n",loadingCurrent->train.crossTime);
+    printf("%ld ",loadingCurrent->train.loadTime);
+    printf("%ld\n",loadingCurrent->train.crossTime);
 
   }
 
@@ -107,7 +107,7 @@ int main(int argc, char *argv[]){
   FILE* trainFile = fopen(fileName, "r"); 
   char line[256];
 
-  int trainCount = 0; //count to see how many trains are in the file
+  long int trainCount = 0; //count to see how many trains are in the file
 
   //create the head and a current node for the loading queue 
   struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct loading) );
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]){
     trainCount++;
 
     tempTrain->id = trainCount;
-    printf("%d ",trainCount);
+    printf("%ld ",trainCount);
 
     //get the trains direction
     token = strtok(line, delim);
