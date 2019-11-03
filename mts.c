@@ -5,7 +5,7 @@
 #include <time.h> 
 
 typedef struct Train {  //struct for train queue
-    int id;
+    pthread_t id;
     char direction; 
     int loadTime;
     int crossTime;
