@@ -89,8 +89,8 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 void* waitForTime(void* arg) //waits for the amount of seconds passed through
 { 
-    long int seconds = (long int *)arg;
-    printf("Waiting for %d seconds\n",seconds);
+    long int seconds = *(long int *)arg;
+    printf("Waiting for %ld seconds\n",seconds);
     int milliSeconds = (1000*seconds); 
     clock_t startTime = clock(); 
     while (clock() < startTime + milliSeconds){
