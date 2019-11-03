@@ -55,7 +55,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
 }
 
-struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
+struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train *tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
   loadingNew.train = tempTrain;
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]){
     //increment train counter
     trainCount++; 
 
-    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,tempTrain);
+    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     
   }
   printLoading(loadingHead,loadingCurrent);
