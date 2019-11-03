@@ -43,13 +43,13 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
   loadingCurrent = loadingHead;
 
   printf("%c ",(loadingCurrent->train.direction));
-  printf("%s ",loadingCurrent->train.loadTime);
-  printf("%s\n",loadingCurrent->train.crossTime);
+  printf("%d ",loadingCurrent->train.loadTime);
+  printf("%d\n",loadingCurrent->train.crossTime);
   while(loadingCurrent->next != NULL){
     loadingCurrent = loadingCurrent->next;
     printf("%c ",loadingCurrent->train.direction);
-    printf("%s ",loadingCurrent->train.loadTime);
-    printf("%s\n",loadingCurrent->train.crossTime);
+    printf("%d ",loadingCurrent->train.loadTime);
+    printf("%d\n",loadingCurrent->train.crossTime);
 
   }
 
