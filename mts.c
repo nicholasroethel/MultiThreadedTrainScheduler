@@ -58,9 +58,9 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
-  loadingNew->train->direction = tempTrain->direction;
-  loadingNew->train->loadTime = tempTrain->loadTime;
-  loadingNew->train->crossTime = tempTrain->crossTime;
+  loadingNew->train->direction = tempTrain.direction;
+  loadingNew->train->loadTime = tempTrain.loadTime;
+  loadingNew->train->crossTime = tempTrain.crossTime;
   loadingNew->next = NULL;
 
   if(loadingHead == NULL){
