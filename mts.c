@@ -36,9 +36,24 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
-void loadTrain(struct Train train){
 
-  
+void printWaiting (struct waiting *waitingHead, struct waiting *waitingCurrent){
+
+  printf("Trains in Waiting Queue:\n");
+
+  waitingCurrent = waitingHead;
+
+  printf("%ld ",(waitingCurrent->train.id));
+  printf("%c ",(waitingCurrent->train.direction));
+  printf("%ld ",(waitingCurrent->train.loadTime));
+  printf("%ld\n",waitingCurrent->train.crossTime);
+  while(waitingCurrent->next != NULL){
+    waitingCurrent = waitingCurrent->next;
+    printf("%ld ",(waitingCurrent->train.id));
+    printf("%c ",waitingCurrent->train.direction);
+    printf("%ld ",waitingCurrent->train.loadTime);
+    printf("%ld\n",waitingCurrent->train.crossTime);
+  }
 }
 
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
@@ -58,7 +73,6 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
     printf("%ld ",loadingCurrent->train.loadTime);
     printf("%ld\n",loadingCurrent->train.crossTime);
   }
-
 }
 
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
