@@ -324,7 +324,7 @@ int main(int argc, char *argv[]){
 
     while(trainsSent<trainCount-1){
       while(trainsWaiting>0 && track == false && canGo == true){
-        canGo == false;
+        canGo = false;
         trainsSent++;
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
         dispatch[done] = true;
