@@ -38,7 +38,8 @@ void *PrintHello(void *threadid)
 }
 
 
-struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
+//adds a train to the loading queue
+struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){ 
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
   loadingNew->train.id = tempTrain.id;
@@ -62,6 +63,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 }
 
 
+//reads file and puts trains in the loading queue
  struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCurrent, char const* const fileName){
 
   FILE* trainFile = fopen(fileName, "r"); 
@@ -107,6 +109,8 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 }
 
+
+//gets the number of trains
 long getTrainCount (struct loading *loadingHead, struct loading *loadingCurrent,long trainCount){
   loadingCurrent = loadingHead;
   trainCount = 1;
@@ -117,6 +121,7 @@ long getTrainCount (struct loading *loadingHead, struct loading *loadingCurrent,
   return trainCount;
 }
 
+//prints the trains in the waiting queue
 void printWaiting (struct waiting *waitingHead, struct waiting *waitingCurrent){
 
   printf("Trains in Waiting Queue:\n");
@@ -136,6 +141,7 @@ void printWaiting (struct waiting *waitingHead, struct waiting *waitingCurrent){
   }
 }
 
+//prints the trains in the loading queue
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
   printf("Trains in Loading Queue:\n");
@@ -155,6 +161,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
   }
 }
 
+//adds trains to the waiting queue
 struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
 
   pthread_mutex_lock (&waitingLock);
@@ -179,7 +186,8 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
   return waitingHead;
 }
 
-void* waitForTime(void* arg) //waits for the amount of seconds passed through
+//waits for the amount of seconds passed through
+void* waitForTime(void* arg) 
 { 
     long seconds;
     seconds = (long)arg;
@@ -191,7 +199,6 @@ void* waitForTime(void* arg) //waits for the amount of seconds passed through
 
 int main(int argc, char *argv[]){
 
-
   //loading in the file
   char const* const fileName = argv[1]; 
 
@@ -201,15 +208,16 @@ int main(int argc, char *argv[]){
   struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct loading ) );
   loadingCurrent = NULL;
 
+  //read in file and get the head of the loading list
+  loadingHead = readFile(loadingHead, loadingCurrent, fileName);
+
   //create the head and a current node for the waiting queue 
   struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
   waitingHead = NULL;
   struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
 
-  loadingHead = readFile(loadingHead, loadingCurrent, fileName);
-
-  long int trainCount = 0; //count to see how many trains are in the file
-  trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
+  //long int trainCount = 0; //count to see how many trains are in the file
+  long int trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
 
 
   printf( "\n");
