@@ -173,6 +173,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 void * addToWaitingQueue(void* arg){
   struct Train* tempTrain = (struct Train*)arg;
   sleep(tempTrain->loadTime);
+  printf("slept for: %ld\n",tempTrain->loadTime);
 
   while(!ready){
     pthread_cond_wait (&waitingCond, &waitingLock);//wait
