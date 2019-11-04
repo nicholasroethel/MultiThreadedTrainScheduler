@@ -199,6 +199,7 @@ int main(int argc, char *argv[]){
   struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct loading) );
   loadingHead = NULL;
   struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct loading ) );
+  loadingCurrent = NULL;
 
   //create the head and a current node for the waiting queue 
   struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
