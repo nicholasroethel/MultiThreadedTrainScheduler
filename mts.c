@@ -48,6 +48,7 @@ void readFile(struct loading *loadingHead, char const* const fileName){
 
   printf("Trains Read:\n");
 
+  long trainCount = 1;
   //iterate through the file and create the trains
   while (fgets(line, sizeof(line), trainFile) != NULL) {
 
@@ -73,7 +74,7 @@ void readFile(struct loading *loadingHead, char const* const fileName){
     printf( "%s", token ); 
  
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
-    
+    trainCount++;
   }
   //close the file
   fclose(trainFile);
