@@ -311,7 +311,7 @@ int main(int argc, char *argv[]){
     }
 
 
-    printWaiting(waitingHead,waitingCurrent);
+    //printWaiting(waitingHead,waitingCurrent);
 
     if(loadingCurrent->next ==NULL){
       break;
