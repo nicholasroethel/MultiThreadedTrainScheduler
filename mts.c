@@ -82,7 +82,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 }
 
 
-struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train *tempTrain){
+struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
 
   struct waiting* waitingNew = ( struct waiting * )malloc( sizeof( struct waiting ) );
   waitingNew->train.id = tempTrain.id;
