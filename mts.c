@@ -37,6 +37,59 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
+void readFile(struct loading *loadingHead, char const* const fileName){
+
+  FILE* trainFile = fopen(fileName, "r"); 
+  char line[256];
+
+  //setup for tokenization
+  const char delim[2] = " ";
+  char *token;
+
+  printf("Trains Read:\n");
+
+  //iterate through the file and create the trains
+  while (fgets(line, sizeof(line), trainFile) != NULL) {
+
+    //allocate memory for the train
+    struct Train *tempTrain = ( struct Train * )malloc( sizeof( struct Train ) );
+
+    tempTrain->id = trainCount;
+    printf("%ld ",trainCount);
+
+    //get the trains direction
+    token = strtok(line, delim);
+    tempTrain->direction = *token;
+    printf( "%s ", token );
+
+    //get the trains load time
+    token = strtok(NULL, delim);
+    tempTrain->loadTime = atoi(token);
+    printf( "%s ", token );
+
+    //get the trains crossing time
+    token = strtok(NULL, delim);
+    tempTrain->crossTime = atoi(token);
+    printf( "%s", token ); 
+ 
+    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
+    
+  }
+  //close the file
+  fclose(trainFile);
+  return loadingHead;
+
+}
+
+long getTrainCount (struct loading *loadingHead, struct loading *loadingCurrent,long trainCount){
+  loadingCurrent = loadingHead;
+  trainCount = 1;
+  while(loadingCurrent->next != NULL){
+    loadingCurrent = loadingCurrent->next;
+    trainCount++;
+  }
+  return trainCount;
+}
 
 void printWaiting (struct waiting *waitingHead, struct waiting *waitingCurrent){
 
@@ -135,65 +188,30 @@ void* waitForTime(void* arg) //waits for the amount of seconds passed through
 } 
 
 int main(int argc, char *argv[]){
-  //setup for tokenization
-  const char delim[2] = " ";
-  char *token;
+
 
   //loading in the file
   char const* const fileName = argv[1]; 
-  FILE* trainFile = fopen(fileName, "r"); 
-  char line[256];
-
-  long int trainCount = 0; //count to see how many trains are in the file
 
   //create the head and a current node for the loading queue 
   struct loading *loadingHead = ( struct loading * )malloc( sizeof( struct loading) );
   loadingHead = NULL;
   struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct loading ) );
 
-    //create the head and a current node for the waiting queue 
+  //create the head and a current node for the waiting queue 
   struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
   waitingHead = NULL;
   struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
 
-  printf("Trains Read:\n");
+  loadingHead = readFile(loadingHead, fileName);
 
-  //iterate through the file and create the trains
-  while (fgets(line, sizeof(line), trainFile) != NULL) {
+  long int trainCount = 0; //count to see how many trains are in the file
+  trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
 
-    //allocate memory for the train
-    struct Train *tempTrain = ( struct Train * )malloc( sizeof( struct Train ) );
-
-    //increment train counter
-    trainCount++;
-
-    tempTrain->id = trainCount;
-    printf("%ld ",trainCount);
-
-    //get the trains direction
-    token = strtok(line, delim);
-    tempTrain->direction = *token;
-    printf( "%s ", token );
-
-    //get the trains load time
-    token = strtok(NULL, delim);
-    tempTrain->loadTime = atoi(token);
-    printf( "%s ", token );
-
-    //get the trains crossing time
-    token = strtok(NULL, delim);
-    tempTrain->crossTime = atoi(token);
-    printf( "%s", token ); 
- 
-    loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
-    
-  }
 
   printf( "\n");
   printLoading(loadingHead,loadingCurrent);
 
-  //close the file
-  fclose(trainFile);
 
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
