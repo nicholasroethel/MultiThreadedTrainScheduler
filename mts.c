@@ -199,7 +199,7 @@ int main(int argc, char *argv[]){
     }
 
 
-    while(!cond){
+    if(lock){
       pthread_cond_wait (&cond, &lock);//wait
     }
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
