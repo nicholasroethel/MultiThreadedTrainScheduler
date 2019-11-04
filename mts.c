@@ -38,7 +38,7 @@ void *PrintHello(void *threadid)
 }
 
 
-struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
+struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent,struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
   loadingNew->train.id = tempTrain.id;
@@ -205,7 +205,7 @@ int main(int argc, char *argv[]){
   waitingHead = NULL;
   struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
 
-  loadingHead = readFile(loadingHead, fileName);
+  loadingHead = readFile(loadingHead, loadingCurrent, fileName);
 
   long int trainCount = 0; //count to see how many trains are in the file
   trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
