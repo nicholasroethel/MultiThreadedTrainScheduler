@@ -88,7 +88,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
     //allocate memory for the train
     struct Train *tempTrain = ( struct Train * )malloc( sizeof( struct Train ) );
 
-    tempTrain->id = trainCount;
+    tempTrain->id = trainCount-1;
     printf("%ld ",trainCount);
 
     //get the trains direction
