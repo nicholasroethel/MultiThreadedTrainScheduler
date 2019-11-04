@@ -91,7 +91,7 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
   waitingNew->train.crossTime = tempTrain.crossTime;
   waitingNew->next = NULL;
 
-  if(loadingHead == NULL){
+  if(waitingHead == NULL){
     waitingHead = waitingNew;
   }
   else{
