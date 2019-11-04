@@ -228,9 +228,11 @@ int main(int argc, char *argv[]){
     loadingCurrent = loadingCurrent->next;
     t++;
   }
-  printWaiting(waitingHead,waitingCurrent);
+
 
   pthread_join(threads[t],NULL);
+
+  printWaiting(waitingHead,waitingCurrent);
   
 
 
