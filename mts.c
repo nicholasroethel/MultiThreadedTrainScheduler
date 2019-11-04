@@ -188,7 +188,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 //adds trains to the waiting queue
 void * addToWaitingQueue(void* arg){
   struct Train* tempTrain = (struct Train*)arg;
-  sleep(tempTrain->loadTime);
+  usleep(tempTrain->loadTime*100000);
   //printf("slept for: %ld\n",tempTrain->loadTime);
 
   while(!ready){
@@ -269,7 +269,7 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
   }
 
   track = true;
-  sleep(currentCrossTime);
+  usleep(currentCrossTime*100000);
   printTime();
   printf("Train %ld is ready to go %c\n",currentBestID, currentBestPriority);
 
