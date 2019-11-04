@@ -201,14 +201,12 @@ void* waitForTime(void* arg)
 } 
 
 
-bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
+long int dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
   long int minID = trainCount; 
   long int currentBestID;
   long int currentLowestLoadingTime; 
-  int shouldSwap = 0;
   char currentBestPriority = 'n';
-
-  
+  int shouldSwap = 0;
 
   waitingCurrent = waitingHead;
 
@@ -242,7 +240,7 @@ bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, lon
   }
   printf("Dispatching: %ld\n", currentBestID);
 
-  return dispatch;
+  return currentBestID;
 }
 
 int main(int argc, char *argv[]){
@@ -273,6 +271,7 @@ int main(int argc, char *argv[]){
   int NUM_THREADS = trainCount;
 
   bool dispatch[trainCount];
+  long int done;
 
   pthread_t threads[NUM_THREADS];
   int rc;
@@ -293,6 +292,8 @@ int main(int argc, char *argv[]){
     }
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
+    done = dispatch(waitingHead, waitingCurrent, trainCount, dispatch)
+    dispatch[done] = true;
     pthread_cond_signal (&waitingCond);
     pthread_mutex_unlock (&waitingLock);
     ready = true;
