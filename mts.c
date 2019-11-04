@@ -317,7 +317,7 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-  pthread_join(threads[t],NULL);
+  //pthread_join(threads[t],NULL);
 
   //printWaiting(waitingHead,waitingCurrent);
   
