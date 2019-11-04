@@ -214,37 +214,37 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
       currentBestID = waitingCurrent->train.id; 
   }
   else{
-  while(waitingCurrent->next != NULL){
-    printf("%s\n",dispatch[waitingCurrent->train.id]?"true":"false");
-    if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
-      if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction == 'w') && (currentBestPriority == 'E'|| currentBestPriority == 'W')){
-        shouldSwap = 1; 
-      }
-      else if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction =='w') && (currentBestPriority == 'e'|| currentBestPriority == 'w')){
-        if(waitingCurrent->train.loadTime<currentLowestLoadingTime){
+    while(waitingCurrent->next != NULL){
+      printf("%s\n",dispatch[waitingCurrent->train.id]?"true":"false");
+      if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
+        if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction == 'w') && (currentBestPriority == 'E'|| currentBestPriority == 'W')){
           shouldSwap = 1; 
         }
-        else if(waitingCurrent->train.loadTime==currentLowestLoadingTime){
-          if(waitingCurrent->train.id<currentBestID){
-            shouldSwap = 1;   
+        else if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction =='w') && (currentBestPriority == 'e'|| currentBestPriority == 'w')){
+          if(waitingCurrent->train.loadTime<currentLowestLoadingTime){
+            shouldSwap = 1; 
+          }
+          else if(waitingCurrent->train.loadTime==currentLowestLoadingTime){
+            if(waitingCurrent->train.id<currentBestID){
+              shouldSwap = 1;   
+            }
           }
         }
+        else if(currentBestPriority == 'n'){
+          shouldSwap = 1;
+        }
       }
-      else if(currentBestPriority == 'n'){
-        shouldSwap = 1;
+      if(shouldSwap == 1){
+        currentBestID = waitingCurrent->train.id; 
+        currentBestPriority = waitingCurrent->train.direction;
+        currentLowestLoadingTime = waitingCurrent->train.loadTime;
+        shouldSwap = 0;
       }
-    }
-    if(shouldSwap == 1){
-      currentBestID = waitingCurrent->train.id; 
-      currentBestPriority = waitingCurrent->train.direction;
-      currentLowestLoadingTime = waitingCurrent->train.loadTime;
-      shouldSwap = 0;
-    }
 
-    waitingCurrent = waitingCurrent->next;
+      waitingCurrent = waitingCurrent->next;
 
+    }
   }
-}
 
   printf("Dispatching: %ld\n", currentBestID);
 
@@ -301,7 +301,9 @@ int main(int argc, char *argv[]){
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
     done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-    dispatch[done] = true;
+    if(done<trainCount){
+      dispatch[done] = true;
+    }
     pthread_cond_signal (&waitingCond);
     pthread_mutex_unlock (&waitingLock);
     ready = true;
