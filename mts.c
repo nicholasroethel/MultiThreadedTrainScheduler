@@ -210,12 +210,6 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
 
   waitingCurrent = waitingHead;
 
-  if (waitingCurrent->next==NULL){
-      currentBestID = waitingCurrent->train.id; 
-      currentBestPriority = waitingCurrent->train.direction;
-      currentLowestLoadingTime = waitingCurrent->train.loadTime;
-  }
-
   while(waitingCurrent->next != NULL){
     printf("%s\n",dispatch[waitingCurrent->train.id]?"true":"false");
     if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
@@ -245,8 +239,15 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
       // printf("Priority: %c\n", currentBestPriority);
       // printf("direction: %ld\n", currentLowestLoadingTime);
     }
+
     waitingCurrent = waitingCurrent->next;
 
+  }
+  if (waitingCurrent->next==NULL && dispatch[0] == false){
+      currentBestID = waitingCurrent->train.id; 
+  }
+  else{
+    return -1;
   }
   printf("Dispatching: %ld\n", currentBestID);
 
