@@ -316,6 +316,7 @@ int main(int argc, char *argv[]){
     loadingCurrent = loadingCurrent->next;
     t++;
   }
+    pthread_join(threads[t],NULL);
 
     printf("%d\n",trainsWaiting);
     printf("%s\n",track?"true":"false");
@@ -324,7 +325,7 @@ int main(int argc, char *argv[]){
       dispatch[done] = true;
     }
 
-  //pthread_join(threads[t],NULL);
+
 
 
   pthread_exit(NULL);
