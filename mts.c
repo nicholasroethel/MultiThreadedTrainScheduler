@@ -201,7 +201,7 @@ void* waitForTime(void* arg)
 } 
 
 
-long int dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, bool dispatch[]){
+long int dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
   long int minID = trainCount; 
   long int currentBestID;
   long int currentLowestLoadingTime; 
@@ -292,7 +292,7 @@ int main(int argc, char *argv[]){
     }
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
-    done = dispatch(waitingHead, waitingCurrent, dispatch)
+    done = dispatch(waitingHead, waitingCurrent, trainCount, dispatch)
     dispatch[done] = true;
     pthread_cond_signal (&waitingCond);
     pthread_mutex_unlock (&waitingLock);
