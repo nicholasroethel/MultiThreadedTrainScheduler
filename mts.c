@@ -197,7 +197,7 @@ int main(int argc, char *argv[]){
     }
 
 
-    waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->*train);
+    waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
     //add to wait
     pthread_cond_signal (&cond);
     pthread_mutex_unlock (&lock);
