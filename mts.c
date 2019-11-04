@@ -205,7 +205,7 @@ bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, lon
   long int minID = trainCount; 
   long int currentBestID;
   long int currentLowestLoadingTime; 
-  int switch = 0;
+  int shouldSwap = 0;
   char currentBestPriority = 'n';
 
   
@@ -215,27 +215,27 @@ bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, lon
   while(waitingCurrent->next != NULL){
     if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
       if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction == 'w') && (currentBestPriority == 'E'|| currentBestPriority == 'W')){
-        switch = 1; 
+        shouldSwap = 1; 
       }
       else if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction =='w') && (currentBestPriority == 'e'|| currentBestPriority == 'w')){
         if(waitingCurrent->train.loadTime<currentLowestLoadingTime){
-          switch = 1; 
+          shouldSwap = 1; 
         }
         else if(waitingCurrent->train.loadTime==currentLowestLoadingTime){
           if(waitingCurrent->train.id<currentBestID){
-            switch = 1;   
+            shouldSwap = 1;   
           }
         }
       }
       else if(currentBestPriority == 'n'){
-        switch = 1;
+        shouldSwap = 1;
       }
     }
-    if(switch == 1){
+    if(shouldSwap == 1){
       currentBestID = waitingCurrent->train.id; 
       currentBestPriority = waitingCurrent->train.direction;
       currentLowestLoadingTime = waitingCurrent->train.loadTime;
-      switch = 0;
+      shouldSwap = 0;
     }
     waitingCurrent = waitingCurrent->next;
 
