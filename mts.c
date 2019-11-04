@@ -306,12 +306,6 @@ int main(int argc, char *argv[]){
     }
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
-    printf("%d\n",trainsWaiting);
-    printf("%s\n",track?"true":"false");
-    while(trainsWaiting>0 && track == false){
-      done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-      dispatch[done] = true;
-    }
     pthread_cond_signal (&waitingCond);
     pthread_mutex_unlock (&waitingLock);
     ready = true;
@@ -322,6 +316,13 @@ int main(int argc, char *argv[]){
     loadingCurrent = loadingCurrent->next;
     t++;
   }
+
+    printf("%d\n",trainsWaiting);
+    printf("%s\n",track?"true":"false");
+    while(trainsWaiting>0 && track == false){
+      done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
+      dispatch[done] = true;
+    }
 
   //pthread_join(threads[t],NULL);
 
