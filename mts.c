@@ -102,7 +102,7 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
    waitingCurrent->next = waitingNew;
   }
 
-  return loadingHead;
+  return waitingHead;
 }
 
 void* waitForTime(void* arg) //waits for the amount of seconds passed through
