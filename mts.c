@@ -38,7 +38,7 @@ void *PrintHello(void *threadid)
 }
 
 
-struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent,struct loading *loadingCurrent, struct Train tempTrain){
+struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
 
   struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
   loadingNew->train.id = tempTrain.id;
@@ -62,7 +62,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 }
 
 
- struct loading* readFile(struct loading *loadingHead, char const* const fileName){
+ struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCurrent, char const* const fileName){
 
   FILE* trainFile = fopen(fileName, "r"); 
   char line[256];
