@@ -223,7 +223,7 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
 
   waitingCurrent = waitingHead;
 
-  if (waitingCurrent->next==NULL && dispatch[0] == false){//if dispatching the first train
+  if (waitingCurrent->next==NULL && dispatch[waitingCurrent->train.id] == false){//if dispatching the first train
       currentBestID = waitingCurrent->train.id; 
       currentCrossTime = waitingCurrent->train.crossTime;
   }
@@ -330,7 +330,6 @@ int main(int argc, char *argv[]){
         pthread_cond_signal (&dispatchCond);
         pthread_mutex_unlock (&dispatchLock);
         dispatchReady = true;
-        
 
       }
   }
