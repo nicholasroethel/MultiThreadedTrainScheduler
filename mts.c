@@ -10,7 +10,6 @@ pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
 bool ready = true;
 bool track = false;
-bool canGo = true;
 long int west = 0;
 long int east = 0; 
 int trainsWaiting = 0;
@@ -280,7 +279,7 @@ int main(int argc, char *argv[]){
   waitingHead = NULL;
   struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
 
-  //printLoading(loadingHead,loadingCurrent);
+  printLoading(loadingHead,loadingCurrent);
 
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
@@ -319,13 +318,11 @@ int main(int argc, char *argv[]){
   }
 
     while(trainsSent<trainCount-1){
-      while(trainsWaiting>0 && track == false && canGo == true){
-        canGo = false;
+      while(trainsWaiting>0 && track == false){
         trainsSent++;
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
         printf("Dispatching: %ld\n", done);
         dispatch[done] = true;
-        canGo = true;
       }
   }
 
