@@ -322,7 +322,7 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-    while(trainsSent<trainCount-1){
+    while(trainsSent<trainCount){
       while(trainsWaiting>0 && track == false){
         trainsSent++;
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
