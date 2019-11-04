@@ -33,8 +33,8 @@ typedef struct waiting{  //struct for the trains waiting to go on the track queu
 }waiting;
 
 //create the head and a current node for the waiting queue 
-struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
-struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
+struct waiting *waitingHead = NULL;
+struct waiting *waitingCurrent = NULL;
 
 void *PrintHello(void *threadid)
 {
