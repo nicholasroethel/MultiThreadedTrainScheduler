@@ -75,7 +75,7 @@ struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCu
   const char delim[2] = " ";
   char *token;
 
-  printf("Trains Read:\n");
+  //printf("Trains Read:\n");
 
   long trainCount = 1;
   //iterate through the file and create the trains
@@ -85,22 +85,22 @@ struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCu
     struct Train *tempTrain = ( struct Train * )malloc( sizeof( struct Train ) );
 
     tempTrain->id = trainCount-1;
-    printf("%ld ",trainCount);
+    //printf("%ld ",trainCount);
 
     //get the trains direction
     token = strtok(line, delim);
     tempTrain->direction = *token;
-    printf( "%s ", token );
+    //printf( "%s ", token );
 
     //get the trains load time
     token = strtok(NULL, delim);
     tempTrain->loadTime = atoi(token);
-    printf( "%s ", token );
+    //printf( "%s ", token );
 
     //get the trains crossing time
     token = strtok(NULL, delim);
     tempTrain->crossTime = atoi(token);
-    printf( "%s", token ); 
+    //printf( "%s", token ); 
 
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     trainCount++;
