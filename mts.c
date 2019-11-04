@@ -37,7 +37,7 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
-void readFile(struct loading *loadingHead, char const* const fileName){
+ struct loading* readFile(struct loading *loadingHead, char const* const fileName){
 
   FILE* trainFile = fopen(fileName, "r"); 
   char line[256];
