@@ -15,10 +15,6 @@ long int east = 0;
 int trainsWaiting = 0;
 int trainsSent = 0;
 
-//create the head and a current node for the waiting queue 
-struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
-struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
-
 typedef struct Train {  //struct for train queue
   long int id;
   char direction; 
@@ -36,6 +32,9 @@ typedef struct waiting{  //struct for the trains waiting to go on the track queu
   struct waiting* next; 
 }waiting;
 
+//create the head and a current node for the waiting queue 
+struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
+struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
 
 void *PrintHello(void *threadid)
 {
