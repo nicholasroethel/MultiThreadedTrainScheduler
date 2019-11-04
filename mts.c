@@ -132,6 +132,11 @@ int main(int argc, char *argv[]){
   loadingHead = NULL;
   struct loading *loadingCurrent = ( struct loading * )malloc( sizeof( struct loading ) );
 
+    //create the head and a current node for the waiting queue 
+  struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
+  waitingHead = NULL;
+  struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
+
   printf("Trains Read:\n");
 
   //iterate through the file and create the trains
@@ -187,6 +192,7 @@ int main(int argc, char *argv[]){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
+
 
 
     if(loadingCurrent->next ==NULL){
