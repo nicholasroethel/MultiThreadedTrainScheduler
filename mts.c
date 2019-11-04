@@ -185,6 +185,9 @@ int main(int argc, char *argv[]){
   int rc;
   long t;
 
+  pthread_cond_signal (&cond);
+  pthread_mutex_unlock (&lock);
+
   loadingCurrent = loadingHead;
 
   t = 1;
