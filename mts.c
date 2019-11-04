@@ -197,11 +197,7 @@ int main(int argc, char *argv[]){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
-
-
-    if(lock){
-      pthread_cond_wait (&cond, &lock);//wait
-    }
+    pthread_cond_wait (&cond, &lock);//wait
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
     //add to wait
     pthread_cond_signal (&cond);
