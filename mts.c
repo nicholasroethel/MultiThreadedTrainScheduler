@@ -41,7 +41,7 @@ void *PrintHello(void *threadid)
 
 
 void dispatch(){
-  
+
 }
 
 //adds a train to the loading queue
@@ -185,7 +185,7 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
   }
   else{
     waitingCurrent = waitingHead;
-    while(waitingCurrentwaitingCurrent->next!=NULL){
+    while(waitingCurrent->next!=NULL){
       waitingCurrent = waitingCurrent->next; 
     }
    waitingCurrent->next = waitingNew;
