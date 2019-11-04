@@ -75,6 +75,13 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
   return loadingHead;
 }
 
+void printTime() {
+  double totalSeconds = ( stop.tv_sec - start.tv_sec ) + ( stop.tv_nsec - start.tv_nsec )/ BILLION;
+  int hours = 0;
+  int minutes = 0;
+  printf("%02d:%02d:%04.1f ", hours, minutes, total_seconds); //format
+}
+
 
 //reads file and puts trains in the loading queue
 struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCurrent, char const* const fileName){
@@ -260,6 +267,9 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
 
   track = true;
   sleep(currentCrossTime);
+  printTime();
+  printf("Train %ld is ready to go %c\n",currentBestID, currentBestPriority);
+
   track = false;
   trainsWaiting --; 
   return currentBestID;
@@ -330,8 +340,8 @@ int main(int argc, char *argv[]){
         pthread_cond_signal (&dispatchCond);
         pthread_mutex_unlock (&dispatchLock);
         dispatchReady = true;
-
       }
+
   }
 
     //pthread_join(threads[t],NULL);
