@@ -288,6 +288,7 @@ int main(int argc, char *argv[]){
 
   //get the amount of trains
   long int trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
+  long int trainsLeft = trainCount;
 
   printLoading(loadingHead,loadingCurrent);
 
@@ -322,12 +323,12 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-    while(trainsSent<trainCount){
+    while(trainsLeft>0){
       while(trainsWaiting>0 && track == false){
-        trainsSent++;
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
         printf("Dispatching: %ld\n", done);
         dispatch[done] = true;
+        trainsLeft--;
       }
   }
 
