@@ -230,10 +230,13 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
       }
     }
     if(shouldSwap == 1){
-      currentBestID = waitingCurrent->train->id; 
-      currentBestPriority = waitingCurrent->train->direction;
-      currentLowestLoadingTime = waitingCurrent->train->loadTime;
+      currentBestID = waitingCurrent->train.id; 
+      currentBestPriority = waitingCurrent->train.direction;
+      currentLowestLoadingTime = waitingCurrent->train.loadTime;
       shouldSwap = 0;
+      printf("ID: %ld\n", currentBestID);
+      printf("Priority: %c\n", currentBestPriority);
+      printf("direction: %ld\n", currentLowestLoadingTime);
     }
     waitingCurrent = waitingCurrent->next;
 
