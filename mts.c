@@ -10,6 +10,8 @@ pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
 bool ready = true;
 bool track = false;
+long int west;
+long int east; 
 
 typedef struct Train {  //struct for train queue
     long int id;
@@ -37,6 +39,10 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
+
+void dispatch(){
+  
+}
 
 //adds a train to the loading queue
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){ 
@@ -144,6 +150,7 @@ void printWaiting (struct waiting *waitingHead, struct waiting *waitingCurrent){
 //prints the trains in the loading queue
 void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
+  printf( "\n");
   printf("Trains in Loading Queue:\n");
 
   loadingCurrent = loadingHead;
@@ -178,7 +185,7 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
   }
   else{
     waitingCurrent = waitingHead;
-    while(waitingCurrent->next!=NULL){
+    while(waitingCurrentwaitingCurrent->next!=NULL){
       waitingCurrent = waitingCurrent->next; 
     }
    waitingCurrent->next = waitingNew;
@@ -211,18 +218,15 @@ int main(int argc, char *argv[]){
   //read in file and get the head of the loading list
   loadingHead = readFile(loadingHead, loadingCurrent, fileName);
 
+  //get the amount of trains
+  long int trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
+
   //create the head and a current node for the waiting queue 
   struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
   waitingHead = NULL;
   struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
 
-  //long int trainCount = 0; //count to see how many trains are in the file
-  long int trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
-
-
-  printf( "\n");
   printLoading(loadingHead,loadingCurrent);
-
 
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
@@ -233,7 +237,9 @@ int main(int argc, char *argv[]){
 
   loadingCurrent = loadingHead;
 
-  t = 1;
+  bool dispatch[trainCount];
+
+  t = 1; 
   while(1){
     printf("In main: creating thread %ld\n", t);
     rc = pthread_create(&threads[t], NULL, waitForTime, (void *)loadingCurrent->train.loadTime);
