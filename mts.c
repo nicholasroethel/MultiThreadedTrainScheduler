@@ -85,6 +85,9 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
 
+  pthread_cond_wait (&cond, &lock);//wait
+  pthread_mutex_lock (&lock);
+
   struct waiting* waitingNew = ( struct waiting * )malloc( sizeof( struct waiting ) );
   waitingNew->train.id = tempTrain.id;
   waitingNew->train.direction = tempTrain.direction;
@@ -102,7 +105,6 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
     }
    waitingCurrent->next = waitingNew;
   }
-
   return waitingHead;
 }
 
@@ -195,7 +197,7 @@ int main(int argc, char *argv[]){
     }
 
 
-    pthread_mutex_lock (&lock);
+    waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,*(loadingCurrent->train));
     //add to wait
     pthread_cond_signal (&cond);
     pthread_mutex_unlock (&lock);
