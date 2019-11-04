@@ -178,7 +178,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 //adds trains to the waiting queue
 void * addToWaitingQueue(void* arg){
   struct Train* tempTrain = (struct Train*)arg;
-  usleep(tempTrain->loadTime/10);
+  sleep(tempTrain->loadTime);
   //printf("slept for: %ld\n",tempTrain->loadTime);
 
   while(!ready){
@@ -259,7 +259,7 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
   }
 
   track = true;
-  usleep(currentCrossTime/10);
+  sleep(currentCrossTime);
   track = false;
   trainsWaiting --; 
   return currentBestID;
