@@ -315,7 +315,7 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-  while(trainsLeft>=0){
+  while(trainsLeft>1){
       while(trainsWaiting>0 && track == false){
           while(!dispatchReady){
             pthread_cond_wait (&dispatchCond, &dispatchLock);//wait
