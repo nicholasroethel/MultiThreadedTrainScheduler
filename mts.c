@@ -76,6 +76,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 }
 
 void printTime() {
+  clock_gettime(CLOCK_REALTIME);
   double totalSeconds = ( stop.tv_sec - start.tv_sec ) + ( stop.tv_nsec - start.tv_nsec )/ BILLION;
   int hours = 0;
   int minutes = 0;
