@@ -306,6 +306,8 @@ int main(int argc, char *argv[]){
     }
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
+    printf("%d\n",trainsWaiting);
+    printf("%s\n",track?"true":"false");
     while(trainsWaiting>0 && track == false){
       done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
       dispatch[done] = true;
