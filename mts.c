@@ -40,10 +40,6 @@ void *PrintHello(void *threadid)
 }
 
 
-void dispatch(){
-
-}
-
 //adds a train to the loading queue
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){ 
 
@@ -204,6 +200,25 @@ void* waitForTime(void* arg)
     return NULL; 
 } 
 
+
+bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
+  long int minID = trainCount; 
+  long int currentBest; 
+
+  waitingCurrent = waitingHead;
+
+  while(waitingCurrent->next != NULL){
+    if(dispatch[waitingCurrent->train.id]==false){ //if it hasn't been dispatched yet
+    
+    }
+   waitingCurrent = waitingCurrent->next;
+
+  }
+
+
+  return dispatch;
+}
+
 int main(int argc, char *argv[]){
 
   //loading in the file
@@ -231,13 +246,13 @@ int main(int argc, char *argv[]){
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
 
+  bool dispatch[trainCount];
+
   pthread_t threads[NUM_THREADS];
   int rc;
   long t;
 
   loadingCurrent = loadingHead;
-
-  bool dispatch[trainCount];
 
   t = 1; 
   while(1){
