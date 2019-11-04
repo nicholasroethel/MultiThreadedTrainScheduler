@@ -10,8 +10,8 @@ pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
 bool ready = true;
 bool track = false;
-long int west;
-long int east; 
+long int west = 0;
+long int east = 0; 
 
 typedef struct Train {  //struct for train queue
     long int id;
@@ -203,18 +203,43 @@ void* waitForTime(void* arg)
 
 bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
   long int minID = trainCount; 
-  long int currentBest; 
+  long int currentBestID;
+  long int currentLowestLoadingTime; 
+  char currentBestPriority = 'n';
+
+  int switch = 0;
 
   waitingCurrent = waitingHead;
 
   while(waitingCurrent->next != NULL){
-    if(dispatch[waitingCurrent->train.id]==false){ //if it hasn't been dispatched yet
-    
+    if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
+      if(waitingCurrent->train.direction == ('e'||'w') && currentBestPriority == ('E'||'W')){
+        switch = 1; 
+      }
+      else if(waitingCurrent->train.direction == ('e'||'w') && currentBestPriority == ('e'||'w')){
+        if(waitingCurrent->train.loadTime<currentLowestLoadingTime){
+          switch = 1; 
+        }
+        else if(waitingCurrent->train.loadTime==currentLowestLoadingTime){
+          if(waitingCurrent->train.id<currentBestID){
+            switch = 1;   
+          }
+        }
+      }
+      else if(currentBestPriority == 'n'){
+        switch = 1;
+      }
+    }
+    if(switch == 1){
+      currentBestID = waitingCurrent->train.id; 
+      currentBestPriority = waitingCurrent->train.direction;
+      currentLowestLoadingTime = waitingCurrent->train.loadTime;
+      switch = 0;
     }
    waitingCurrent = waitingCurrent->next;
 
   }
-
+  printf("Dispatching: %ld\n", currentBestID);
 
   return dispatch;
 }
