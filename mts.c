@@ -14,20 +14,20 @@ long int west = 0;
 long int east = 0; 
 
 typedef struct Train {  //struct for train queue
-    long int id;
-    char direction; 
-    long int loadTime;
-    long int crossTime;
+  long int id;
+  char direction; 
+  long int loadTime;
+  long int crossTime;
 }Train;
 
 typedef struct loading {  //struct for the loading train queue
-    struct Train train;
-    struct loading* next; 
+  struct Train train;
+  struct loading* next; 
 }loading;
 
 typedef struct waiting{  //struct for the trains waiting to go on the track queue
-    struct Train train;
-    struct waiting* next; 
+  struct Train train;
+  struct waiting* next; 
 }waiting;
 
 
@@ -35,7 +35,7 @@ void *PrintHello(void *threadid)
 {
  long tid;
  tid = (long)threadid;
-   printf("Hello World! It's me, thread #%ld!\n", tid);
+ printf("Hello World! It's me, thread #%ld!\n", tid);
  pthread_exit(NULL);
 }
 
@@ -66,7 +66,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 
 //reads file and puts trains in the loading queue
- struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCurrent, char const* const fileName){
+struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCurrent, char const* const fileName){
 
   FILE* trainFile = fopen(fileName, "r"); 
   char line[256];
@@ -101,7 +101,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
     token = strtok(NULL, delim);
     tempTrain->crossTime = atoi(token);
     printf( "%s", token ); 
- 
+
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     trainCount++;
   }
@@ -184,7 +184,7 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
     while(waitingCurrent->next!=NULL){
       waitingCurrent = waitingCurrent->next; 
     }
-   waitingCurrent->next = waitingNew;
+    waitingCurrent->next = waitingNew;
   }
   return waitingHead;
 }
@@ -192,12 +192,12 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
 //waits for the amount of seconds passed through
 void* waitForTime(void* arg) 
 { 
-    long seconds;
-    seconds = (long)arg;
-    printf("Waiting for %ld seconds\n",seconds);
-    sleep(seconds);
-    printf("Waited for %ld seconds\n",seconds);
-    return NULL; 
+  long seconds;
+  seconds = (long)arg;
+  printf("Waiting for %ld seconds\n",seconds);
+  sleep(seconds);
+  printf("Waited for %ld seconds\n",seconds);
+  return NULL; 
 } 
 
 
@@ -205,9 +205,10 @@ bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, lon
   long int minID = trainCount; 
   long int currentBestID;
   long int currentLowestLoadingTime; 
+  int switch = 0;
   char currentBestPriority = 'n';
 
-  int switch = 0;
+  
 
   waitingCurrent = waitingHead;
 
@@ -236,7 +237,7 @@ bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, lon
       currentLowestLoadingTime = waitingCurrent->train.loadTime;
       switch = 0;
     }
-   waitingCurrent = waitingCurrent->next;
+    waitingCurrent = waitingCurrent->next;
 
   }
   printf("Dispatching: %ld\n", currentBestID);
@@ -283,9 +284,9 @@ int main(int argc, char *argv[]){
   while(1){
     printf("In main: creating thread %ld\n", t);
     rc = pthread_create(&threads[t], NULL, waitForTime, (void *)loadingCurrent->train.loadTime);
-      if (rc){
-        printf("ERROR; return code from pthread_create() is %d\n", rc);
-        exit(-1);
+    if (rc){
+      printf("ERROR; return code from pthread_create() is %d\n", rc);
+      exit(-1);
     }
     while(!ready){
       pthread_cond_wait (&waitingCond, &waitingLock);//wait
@@ -320,5 +321,5 @@ int main(int argc, char *argv[]){
   // }
 
 /* Last thing that main() should do */
- pthread_exit(NULL);
+  pthread_exit(NULL);
 }
