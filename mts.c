@@ -14,20 +14,15 @@ typedef struct Train {  //struct for train queue
     long int crossTime;
 }Train;
 
-typedef struct loading {  //struct for train queue
+typedef struct loading {  //struct for the loading train queue
     struct Train train;
     struct loading* next; 
 }loading;
 
-typedef struct eastTrain{  //struct for train queue
+typedef struct waiting{  //struct for the trains waiting to go on the track queue
     struct Train* train;
-    struct eastTrain* next; 
-}eastTrain;
-
-typedef struct westTrain{  //struct for train queue
-    struct Train* train;
-    struct eastTrain* next; 
-}westTrain;
+    struct waiting* next; 
+}waiting;
 
 
 void *PrintHello(void *threadid)
@@ -59,7 +54,6 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
     printf("%c ",loadingCurrent->train.direction);
     printf("%ld ",loadingCurrent->train.loadTime);
     printf("%ld\n",loadingCurrent->train.crossTime);
-
   }
 
 }
@@ -87,6 +81,30 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
   return loadingHead;
 }
 
+
+struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
+
+  struct waiting* waitingNew = ( struct waiting * )malloc( sizeof( struct waiting ) );
+  waitingNew->train.id = tempTrain.id;
+  waitingNew->train.direction = tempTrain.direction;
+  waitingNew->train.loadTime = tempTrain.loadTime;
+  waitingNew->train.crossTime = tempTrain.crossTime;
+  waitingNew->next = NULL;
+
+  if(loadingHead == NULL){
+    waitingHead = waitingNew;
+  }
+  else{
+    waitingCurrent = waitingHead;
+    while(waitingCurrent->next!=NULL){
+      waitingCurrent = waitingCurrent->next; 
+    }
+   waitingCurrent->next = waitingNew;
+  }
+
+  return loadingHead;
+}
+
 void* waitForTime(void* arg) //waits for the amount of seconds passed through
 { 
     long seconds;
@@ -94,11 +112,6 @@ void* waitForTime(void* arg) //waits for the amount of seconds passed through
     printf("Waiting for %ld seconds\n",seconds);
     sleep(seconds);
     printf("Waited for %ld seconds\n",seconds);
-    // long int milliSeconds = (1000*seconds); 
-    // clock_t startTime = clock(); 
-    // while (clock() < startTime + milliSeconds){
-    //   //do nothing
-    // }
     return NULL; 
 } 
 
@@ -174,6 +187,8 @@ int main(int argc, char *argv[]){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
+
+
     if(loadingCurrent->next ==NULL){
       break;
     }
