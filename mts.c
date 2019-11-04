@@ -7,6 +7,7 @@
 
 pthread_mutex_t lock =  PTHREAD_MUTEX_INITIALIZER; 
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+bool ready = true;
 
 typedef struct Train {  //struct for train queue
     long int id;
@@ -197,11 +198,14 @@ int main(int argc, char *argv[]){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
-    pthread_cond_wait (&cond, &lock);//wait
+    while(!ready){
+      pthread_cond_wait (&cond, &lock);//wait
+    }
+    ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
-    //add to wait
     pthread_cond_signal (&cond);
     pthread_mutex_unlock (&lock);
+    ready = true;
 
     if(loadingCurrent->next ==NULL){
       break;
