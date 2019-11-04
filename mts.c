@@ -12,6 +12,7 @@ bool ready = true;
 bool track = false;
 long int west = 0;
 long int east = 0; 
+int trainsWaiting = 0;
 
 typedef struct Train {  //struct for train queue
   long int id;
@@ -196,6 +197,7 @@ void* waitForTime(void* arg)
   seconds = (long)arg;
   printf("Waiting for %ld seconds\n",seconds);
   sleep(seconds);
+  trainsWaiting++;
   printf("Waited for %ld seconds\n",seconds);
   return NULL; 
 } 
@@ -205,6 +207,7 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
   long int minID = trainCount; 
   long int currentBestID;
   long int currentLowestLoadingTime; 
+  long int currentCrossTime = 0;
   char currentBestPriority = 'n';
   int shouldSwap = 0;
 
@@ -212,6 +215,7 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
 
   if (waitingCurrent->next==NULL && dispatch[0] == false){
       currentBestID = waitingCurrent->train.id; 
+      currentCrossTime = waitingCurrent->train.crossTime;
   }
   else{
     while(waitingCurrent->next != NULL){
@@ -238,16 +242,18 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
         currentBestID = waitingCurrent->train.id; 
         currentBestPriority = waitingCurrent->train.direction;
         currentLowestLoadingTime = waitingCurrent->train.loadTime;
+        currentCrossTime = waitingCurrent->train.crossTime;
         shouldSwap = 0;
       }
-
       waitingCurrent = waitingCurrent->next;
-
     }
   }
 
   printf("Dispatching: %ld\n", currentBestID);
-
+  track = true;
+  sleep(currentCrossTime);
+  track = false;
+  trainsWaiting --; 
   return currentBestID;
 }
 
@@ -300,8 +306,8 @@ int main(int argc, char *argv[]){
     }
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
-    done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-    if(done<trainCount){
+    while(trainsWaiting>0 && track == false){
+      done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
       dispatch[done] = true;
     }
     pthread_cond_signal (&waitingCond);
@@ -317,19 +323,6 @@ int main(int argc, char *argv[]){
 
   //pthread_join(threads[t],NULL);
 
-  //printWaiting(waitingHead,waitingCurrent);
-  
 
-
-  // for(t=0;t<NUM_THREADS;t++){
-  //   printf("In main: creating thread %ld\n", t);
-  //     rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
-  //     if (rc){
-  //       printf("ERROR; return code from pthread_create() is %d\n", rc);
-  //       exit(-1);
-  //     }
-  // }
-
-/* Last thing that main() should do */
   pthread_exit(NULL);
 }
