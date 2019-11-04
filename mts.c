@@ -292,7 +292,7 @@ int main(int argc, char *argv[]){
     }
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
-    done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch)
+    done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
     dispatch[done] = true;
     pthread_cond_signal (&waitingCond);
     pthread_mutex_unlock (&waitingLock);
