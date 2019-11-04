@@ -247,6 +247,7 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
       currentBestID = waitingCurrent->train.id; 
   }
   else{
+    sleep(1);
     return -1;
   }
   printf("Dispatching: %ld\n", currentBestID);
