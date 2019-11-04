@@ -220,7 +220,6 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
   }
   else{
     while(waitingCurrent->next != NULL){
-      printf("%s\n",dispatch[waitingCurrent->train.id]?"true":"false");
       if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
         if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction == 'w') && (currentBestPriority == 'E'|| currentBestPriority == 'W')){
           shouldSwap = 1; 
@@ -310,6 +309,8 @@ int main(int argc, char *argv[]){
     pthread_mutex_unlock (&waitingLock);
     ready = true;
 
+    printWaiting(waitingHead,waitingCurrent);
+
     if(loadingCurrent->next ==NULL){
       break;
     }
@@ -317,14 +318,14 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-    while(trainsSent<trainCount-1){
-      while(trainsWaiting>0 && track == false){
-        trainsSent++;
-        done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-        printf("Dispatching: %ld\n", done);
-        dispatch[done] = true;
-      }
-  }
+  //   while(trainsSent<trainCount-1){
+  //     while(trainsWaiting>0 && track == false){
+  //       trainsSent++;
+  //       done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
+  //       printf("Dispatching: %ld\n", done);
+  //       dispatch[done] = true;
+  //     }
+  // }
 
     pthread_join(threads[t],NULL);
 
