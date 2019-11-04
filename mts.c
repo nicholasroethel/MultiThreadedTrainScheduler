@@ -334,11 +334,8 @@ int main(int argc, char *argv[]){
       }
   }
    done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-        if(done<trainCount){
-          printf("Dispatching: %ld\n", done);
-          dispatch[done] = true;
-          trainsLeft--;
-    }
+   printf("Dispatching: %ld\n", done);
+
 
     //pthread_join(threads[t],NULL);
 
