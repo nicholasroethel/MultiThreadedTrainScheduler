@@ -304,7 +304,7 @@ int main(int argc, char *argv[]){
   t = 1; 
   while(1){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(&threads[t], NULL, addToWaitingQueue, (loadingCurrent->train));
+    rc = pthread_create(&threads[t], NULL, addToWaitingQueue, &(loadingCurrent->train));
     if (rc){
       printf("ERROR; return code from pthread_create() is %d\n", rc);
       exit(-1);
