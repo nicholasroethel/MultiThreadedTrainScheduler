@@ -171,7 +171,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 
 //adds trains to the waiting queue
 void * addToWaitingQueue(void* arg){
-  struct Train tempTrain = (struct * Train)arg;
+  struct Train tempTrain = (struct Train*)arg;
   sleep(tempTrain.loadTime);
 
   while(!ready){
