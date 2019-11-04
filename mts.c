@@ -332,8 +332,13 @@ int main(int argc, char *argv[]){
         pthread_mutex_unlock (&dispatchLock);
         dispatchReady = true;
       }
-
   }
+   done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
+        if(done<trainCount){
+          printf("Dispatching: %ld\n", done);
+          dispatch[done] = true;
+          trainsLeft--;
+    }
 
     //pthread_join(threads[t],NULL);
 
