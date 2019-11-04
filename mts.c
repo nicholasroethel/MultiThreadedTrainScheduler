@@ -213,7 +213,7 @@ bool * dispatch(struct waiting *waitingHead, struct waiting *waitingCurrent, lon
 
   while(waitingCurrent->next != NULL){
     if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
-      if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction == 'w') && (currentBestPriority == 'E'|| currentBestPriority == 'E''W')){
+      if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction == 'w') && (currentBestPriority == 'E'|| currentBestPriority == 'W')){
         switch = 1; 
       }
       else if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction =='w') && (currentBestPriority == 'e'|| currentBestPriority == 'w')){
