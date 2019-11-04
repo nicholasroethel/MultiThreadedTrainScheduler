@@ -181,10 +181,10 @@ void * addToWaitingQueue(void* arg){
   pthread_mutex_lock (&waitingLock);
 
   struct waiting* waitingNew = ( struct waiting * )malloc( sizeof( struct waiting ) );
-  waitingNew->train.id = tempTrain.id;
-  waitingNew->train.direction = tempTrain.direction;
-  waitingNew->train.loadTime = tempTrain.loadTime;
-  waitingNew->train.crossTime = tempTrain.crossTime;
+  waitingNew->train.id = tempTrain->id;
+  waitingNew->train.direction = tempTrain->direction;
+  waitingNew->train.loadTime = tempTrain->loadTime;
+  waitingNew->train.crossTime = tempTrain->crossTime;
   waitingNew->next = NULL;
 
   if(waitingHead == NULL){
