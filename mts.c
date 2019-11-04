@@ -322,9 +322,11 @@ int main(int argc, char *argv[]){
         dispatchReady = false;
         pthread_mutex_lock (&dispatchLock);
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-        printf("Dispatching: %ld\n", done);
-        dispatch[done] = true;
-        trainsLeft--;
+        if(done<trainCount){
+          printf("Dispatching: %ld\n", done);
+          dispatch[done] = true;
+          trainsLeft--;
+        }
         pthread_cond_signal (&dispatchCond);
         pthread_mutex_unlock (&dispatchLock);
         dispatchReady = true;
