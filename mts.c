@@ -173,7 +173,7 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 void * addToWaitingQueue(void* arg){
   struct Train* tempTrain = (struct Train*)arg;
   sleep(tempTrain->loadTime);
-  printf("slept for: %ld\n",tempTrain->loadTime);
+  //printf("slept for: %ld\n",tempTrain->loadTime);
 
   while(!ready){
     pthread_cond_wait (&waitingCond, &waitingLock);//wait
@@ -202,6 +202,7 @@ void * addToWaitingQueue(void* arg){
   pthread_cond_signal (&waitingCond);
   pthread_mutex_unlock (&waitingLock);
   ready = true;
+  trainsWaiting++;
 
   return NULL;
 }
@@ -321,14 +322,14 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-  //   while(trainsSent<trainCount-1){
-  //     while(trainsWaiting>0 && track == false){
-  //       trainsSent++;
-  //       done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-  //       printf("Dispatching: %ld\n", done);
-  //       dispatch[done] = true;
-  //     }
-  // }
+    while(trainsSent<trainCount-1){
+      while(trainsWaiting>0 && track == false){
+        trainsSent++;
+        done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
+        printf("Dispatching: %ld\n", done);
+        dispatch[done] = true;
+      }
+  }
 
     pthread_join(threads[t],NULL);
 
