@@ -6,9 +6,10 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-pthread_mutex_t lock =  PTHREAD_MUTEX_INITIALIZER; 
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER; 
+pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
 bool ready = true;
+bool track = false;
 
 typedef struct Train {  //struct for train queue
     long int id;
@@ -101,7 +102,7 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
 
-  pthread_mutex_lock (&lock);
+  pthread_mutex_lock (&waitingLock);
 
   struct waiting* waitingNew = ( struct waiting * )malloc( sizeof( struct waiting ) );
   waitingNew->train.id = tempTrain.id;
@@ -187,6 +188,7 @@ int main(int argc, char *argv[]){
     loadingHead = addToLoadingQueue(loadingHead,loadingCurrent,*tempTrain);
     
   }
+
   printf( "\n");
   printLoading(loadingHead,loadingCurrent);
 
@@ -200,9 +202,6 @@ int main(int argc, char *argv[]){
   int rc;
   long t;
 
-  pthread_cond_signal (&cond);
-  pthread_mutex_unlock (&lock);
-
   loadingCurrent = loadingHead;
 
   t = 1;
@@ -214,12 +213,12 @@ int main(int argc, char *argv[]){
         exit(-1);
     }
     while(!ready){
-      pthread_cond_wait (&cond, &lock);//wait
+      pthread_cond_wait (&waitingCond, &waitingLock);//wait
     }
     ready = false;
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
-    pthread_cond_signal (&cond);
-    pthread_mutex_unlock (&lock);
+    pthread_cond_signal (&waitingCond);
+    pthread_mutex_unlock (&waitingLock);
     ready = true;
 
     if(loadingCurrent->next ==NULL){
