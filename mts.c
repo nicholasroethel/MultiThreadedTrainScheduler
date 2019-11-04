@@ -8,8 +8,14 @@
 
 pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER; 
 pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
+
+pthread_mutex_t dispatchLock =  PTHREAD_MUTEX_INITIALIZER; 
+pthread_cond_t dispatchCond = PTHREAD_COND_INITIALIZER;
+
 bool ready = true;
+bool dispatchReady = true;
 bool track = false;
+
 long int west = 0;
 long int east = 0; 
 int trainsWaiting = 0;
@@ -201,24 +207,11 @@ void * addToWaitingQueue(void* arg){
 
   pthread_cond_signal (&waitingCond);
   pthread_mutex_unlock (&waitingLock);
-  ready = true;
   trainsWaiting++;
+  ready = true;
 
   return NULL;
 }
-
-// //waits for the amount of seconds passed through
-// void* waitForTime(void* arg) 
-// { 
-//   long seconds;
-//   seconds = (long)arg;
-//   printf("Waiting for %ld seconds\n",seconds);
-//   sleep(seconds);
-//   trainsWaiting++;
-//   printf("Waited for %ld seconds\n",seconds);
-//   return NULL; 
-// } 
-
 
 long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
   long int minID = trainCount; 
@@ -230,11 +223,11 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
 
   waitingCurrent = waitingHead;
 
-  if (waitingCurrent->next==NULL && dispatch[0] == false){
+  if (waitingCurrent->next==NULL && dispatch[0] == false){//if dispatching the first train
       currentBestID = waitingCurrent->train.id; 
       currentCrossTime = waitingCurrent->train.crossTime;
   }
-  else{
+  else{ //if dispatching something else
     while(waitingCurrent->next != NULL){
       if(dispatch[waitingCurrent->train.id] == false){ //if it hasn't been dispatched yet
         if((waitingCurrent->train.direction == 'e'|| waitingCurrent->train.direction == 'w') && (currentBestPriority == 'E'|| currentBestPriority == 'W')){
@@ -312,8 +305,6 @@ int main(int argc, char *argv[]){
       printf("ERROR; return code from pthread_create() is %d\n", rc);
       exit(-1);
     }
-
-
     //printWaiting(waitingHead,waitingCurrent);
 
     if(loadingCurrent->next ==NULL){
@@ -323,16 +314,26 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-    while(trainsLeft>0){
+  while(trainsLeft>0){
       while(trainsWaiting>0 && track == false){
+          while(!dispatchReady){
+            pthread_cond_wait (&dispatchCond, &dispatchLock);//wait
+          }
+        dispatchReady = false;
+        pthread_mutex_lock (&dispatchLock);
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
         printf("Dispatching: %ld\n", done);
         dispatch[done] = true;
         trainsLeft--;
+        pthread_cond_signal (&dispatchCond);
+        pthread_mutex_unlock (&dispatchLock);
+        dispatchReady = true;
+        
+
       }
   }
 
-    pthread_join(threads[t],NULL);
+    //pthread_join(threads[t],NULL);
 
 
   pthread_exit(NULL);
