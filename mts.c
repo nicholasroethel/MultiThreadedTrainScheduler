@@ -322,7 +322,7 @@ int main(int argc, char *argv[]){
     printf("%s\n",track?"true":"false");
     while(trainsSent<trainCount-1){
       while(trainsWaiting>0 && track == false){
-        trainsSent++
+        trainsSent++;
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
         dispatch[done] = true;
       }
