@@ -10,6 +10,7 @@ pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
 bool ready = true;
 bool track = false;
+bool canGo = true;
 long int west = 0;
 long int east = 0; 
 int trainsWaiting = 0;
@@ -320,11 +321,14 @@ int main(int argc, char *argv[]){
 
     printf("%d\n",trainsWaiting);
     printf("%s\n",track?"true":"false");
+
     while(trainsSent<trainCount-1){
-      while(trainsWaiting>0 && track == false){
+      while(trainsWaiting>0 && track == false && canGo == true){
+        canGo == false;
         trainsSent++;
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
         dispatch[done] = true;
+        canGo = true;
       }
   }
 
