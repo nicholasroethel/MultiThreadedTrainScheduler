@@ -13,6 +13,7 @@ bool track = false;
 long int west = 0;
 long int east = 0; 
 int trainsWaiting = 0;
+int trainsSent = 0;
 
 typedef struct Train {  //struct for train queue
   long int id;
@@ -316,16 +317,18 @@ int main(int argc, char *argv[]){
     loadingCurrent = loadingCurrent->next;
     t++;
   }
-    pthread_join(threads[t],NULL);
 
     printf("%d\n",trainsWaiting);
     printf("%s\n",track?"true":"false");
-    while(trainsWaiting>0 && track == false){
-      done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-      dispatch[done] = true;
-    }
+    while(trainsSent<trainCount-1){
+      while(trainsWaiting>0 && track == false){
+        trainsSent++
+        done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
+        dispatch[done] = true;
+      }
+  }
 
-
+    pthread_join(threads[t],NULL);
 
 
   pthread_exit(NULL);
