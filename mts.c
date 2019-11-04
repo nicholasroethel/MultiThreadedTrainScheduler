@@ -265,7 +265,7 @@ int main(int argc, char *argv[]){
   waitingHead = NULL;
   struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
 
-  printLoading(loadingHead,loadingCurrent);
+  //printLoading(loadingHead,loadingCurrent);
 
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
@@ -305,10 +305,9 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-
   pthread_join(threads[t],NULL);
 
-  printWaiting(waitingHead,waitingCurrent);
+  //printWaiting(waitingHead,waitingCurrent);
   
 
 
