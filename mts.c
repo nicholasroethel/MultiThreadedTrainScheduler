@@ -5,7 +5,8 @@
 #include <time.h> 
 #include <unistd.h>
 
-#define INT2VOIDP(i) (void*)(uintptr_t)(i)
+pthread_mutex_t lock =  PTHREAD_MUTEX_INITIALIZER; 
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 typedef struct Train {  //struct for train queue
     long int id;
@@ -194,6 +195,10 @@ int main(int argc, char *argv[]){
     }
 
 
+    pthread_mutex_lock (&lock);
+    //add to wait
+    pthread_cond_signal (&cond);
+    pthread_mutex_unlock (&lock);
 
     if(loadingCurrent->next ==NULL){
       break;
@@ -201,6 +206,8 @@ int main(int argc, char *argv[]){
     loadingCurrent = loadingCurrent->next;
     t++;
   }
+
+
   pthread_join(threads[t],NULL);
   
 
