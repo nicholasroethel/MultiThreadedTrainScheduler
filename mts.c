@@ -15,6 +15,10 @@ long int east = 0;
 int trainsWaiting = 0;
 int trainsSent = 0;
 
+//create the head and a current node for the waiting queue 
+struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
+struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
+
 typedef struct Train {  //struct for train queue
   long int id;
   char direction; 
@@ -167,8 +171,14 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
 }
 
 //adds trains to the waiting queue
-struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
+void * addToWaitingQueue(void* arg){
+  struct Train tempTrain = (struct Train)arg;
+  sleep(tempTrain.loadTime);
 
+  while(!ready){
+    pthread_cond_wait (&waitingCond, &waitingLock);//wait
+  }
+  ready = false;
   pthread_mutex_lock (&waitingLock);
 
   struct waiting* waitingNew = ( struct waiting * )malloc( sizeof( struct waiting ) );
@@ -188,20 +198,25 @@ struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *w
     }
     waitingCurrent->next = waitingNew;
   }
-  return waitingHead;
+
+  pthread_cond_signal (&waitingCond);
+  pthread_mutex_unlock (&waitingLock);
+  ready = true;
+
+  return NULL;
 }
 
-//waits for the amount of seconds passed through
-void* waitForTime(void* arg) 
-{ 
-  long seconds;
-  seconds = (long)arg;
-  printf("Waiting for %ld seconds\n",seconds);
-  sleep(seconds);
-  trainsWaiting++;
-  printf("Waited for %ld seconds\n",seconds);
-  return NULL; 
-} 
+// //waits for the amount of seconds passed through
+// void* waitForTime(void* arg) 
+// { 
+//   long seconds;
+//   seconds = (long)arg;
+//   printf("Waiting for %ld seconds\n",seconds);
+//   sleep(seconds);
+//   trainsWaiting++;
+//   printf("Waited for %ld seconds\n",seconds);
+//   return NULL; 
+// } 
 
 
 long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
@@ -273,11 +288,6 @@ int main(int argc, char *argv[]){
   //get the amount of trains
   long int trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
 
-  //create the head and a current node for the waiting queue 
-  struct waiting *waitingHead = ( struct waiting * )malloc( sizeof( struct waiting) );
-  waitingHead = NULL;
-  struct waiting *waitingCurrent = ( struct waiting * )malloc( sizeof( struct waiting ) );
-
   printLoading(loadingHead,loadingCurrent);
 
   //the amount of threads for the train
@@ -295,19 +305,12 @@ int main(int argc, char *argv[]){
   t = 1; 
   while(1){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(&threads[t], NULL, waitForTime, (void *)loadingCurrent->train.loadTime);
+    rc = pthread_create(&threads[t], NULL, addToWaitingQueue, (void *)loadingCurrent->train);
     if (rc){
       printf("ERROR; return code from pthread_create() is %d\n", rc);
       exit(-1);
     }
-    while(!ready){
-      pthread_cond_wait (&waitingCond, &waitingLock);//wait
-    }
-    ready = false;
-    waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
-    pthread_cond_signal (&waitingCond);
-    pthread_mutex_unlock (&waitingLock);
-    ready = true;
+
 
     printWaiting(waitingHead,waitingCurrent);
 
