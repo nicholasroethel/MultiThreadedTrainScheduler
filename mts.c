@@ -20,7 +20,7 @@ typedef struct loading {  //struct for the loading train queue
 }loading;
 
 typedef struct waiting{  //struct for the trains waiting to go on the track queue
-    struct Train* train;
+    struct Train train;
     struct waiting* next; 
 }waiting;
 
