@@ -37,6 +37,31 @@ void *PrintHello(void *threadid)
  pthread_exit(NULL);
 }
 
+
+struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
+
+  struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
+  loadingNew->train.id = tempTrain.id;
+  loadingNew->train.direction = tempTrain.direction;
+  loadingNew->train.loadTime = tempTrain.loadTime;
+  loadingNew->train.crossTime = tempTrain.crossTime;
+  loadingNew->next = NULL;
+
+  if(loadingHead == NULL){
+    loadingHead = loadingNew;
+  }
+  else{
+    loadingCurrent = loadingHead;
+    while(loadingCurrent->next!=NULL){
+      loadingCurrent = loadingCurrent->next; 
+    }
+    loadingCurrent->next = loadingNew;
+  }
+
+  return loadingHead;
+}
+
+
  struct loading* readFile(struct loading *loadingHead, char const* const fileName){
 
   FILE* trainFile = fopen(fileName, "r"); 
@@ -129,30 +154,6 @@ void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
     printf("%ld\n",loadingCurrent->train.crossTime);
   }
 }
-
-struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){
-
-  struct loading* loadingNew = ( struct loading * )malloc( sizeof( struct loading ) );
-  loadingNew->train.id = tempTrain.id;
-  loadingNew->train.direction = tempTrain.direction;
-  loadingNew->train.loadTime = tempTrain.loadTime;
-  loadingNew->train.crossTime = tempTrain.crossTime;
-  loadingNew->next = NULL;
-
-  if(loadingHead == NULL){
-    loadingHead = loadingNew;
-  }
-  else{
-    loadingCurrent = loadingHead;
-    while(loadingCurrent->next!=NULL){
-      loadingCurrent = loadingCurrent->next; 
-    }
-    loadingCurrent->next = loadingNew;
-  }
-
-  return loadingHead;
-}
-
 
 struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
 
