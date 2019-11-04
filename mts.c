@@ -85,7 +85,6 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 struct waiting* addToWaitingQueue(struct waiting *waitingHead, struct waiting *waitingCurrent, struct Train tempTrain){
 
-  pthread_cond_wait (&cond, &lock);//wait
   pthread_mutex_lock (&lock);
 
   struct waiting* waitingNew = ( struct waiting * )malloc( sizeof( struct waiting ) );
@@ -200,8 +199,9 @@ int main(int argc, char *argv[]){
     }
 
 
-    pthread_cond_signal (&cond);
-    pthread_mutex_unlock (&lock);
+    while(!cond){
+      pthread_cond_wait (&cond, &lock);//wait
+    }
     waitingHead = addToWaitingQueue(waitingHead,waitingCurrent,loadingCurrent->train);
     //add to wait
     pthread_cond_signal (&cond);
