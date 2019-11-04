@@ -251,7 +251,6 @@ long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent,
     }
   }
 
-  printf("Dispatching: %ld\n", currentBestID);
   track = true;
   sleep(currentCrossTime);
   track = false;
@@ -319,14 +318,12 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-    printf("%d\n",trainsWaiting);
-    printf("%s\n",track?"true":"false");
-
     while(trainsSent<trainCount-1){
       while(trainsWaiting>0 && track == false && canGo == true){
         canGo = false;
         trainsSent++;
         done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
+        printf("Dispatching: %ld\n", done);
         dispatch[done] = true;
         canGo = true;
       }
