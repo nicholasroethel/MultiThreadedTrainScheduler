@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+struct timespec start, stop; 
+
 pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER; 
 pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
 
@@ -77,10 +79,10 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
 void printTime() {
   clock_gettime(CLOCK_REALTIME);
-  double totalSeconds = ( stop.tv_sec - start.tv_sec ) + ( stop.tv_nsec - start.tv_nsec )/ BILLION;
+  double totalSeconds = ( stop.tv_sec - start.tv_sec ) + ( stop.tv_nsec - start.tv_nsec )/ 1000000000.0;
   int hours = 0;
   int minutes = 0;
-  printf("%02d:%02d:%04.1f ", hours, minutes, total_seconds); //format
+  printf("%02d:%02d:%04.1f ", hours, minutes, totalSeconds); //format
 }
 
 
