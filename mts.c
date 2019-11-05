@@ -236,8 +236,6 @@ int main(int argc, char *argv[]){
   long int trainCount = getTrainCount(loadingHead,loadingCurrent,trainCount);
   long int trainsLeft = trainCount;
 
-  printLoading(loadingHead,loadingCurrent);
-
   //the amount of threads for the train
   int NUM_THREADS = trainCount;
 
