@@ -6,16 +6,17 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER; 
+pthread_mutex_t waitingLock =  PTHREAD_MUTEX_INITIALIZER;  //mutex for wait queue
 pthread_cond_t waitingCond = PTHREAD_COND_INITIALIZER;
 
-pthread_mutex_t dispatchLock =  PTHREAD_MUTEX_INITIALIZER; 
+pthread_mutex_t dispatchLock =  PTHREAD_MUTEX_INITIALIZER; //mutex for dispatcher
 pthread_cond_t dispatchCond = PTHREAD_COND_INITIALIZER;
 
-bool ready = true;
-bool dispatchReady = true;
-bool track = false;
+bool ready = true; //bool for wait
+bool dispatchReady = true; //bool for dispatch
+bool track = false; //bool for track
 
+//global counters
 long int west = 0;
 long int east = 0; 
 int trainsWaiting = 0;
@@ -42,14 +43,6 @@ typedef struct waiting{  //struct for the trains waiting to go on the track queu
 struct waiting *waitingHead = NULL;
 struct waiting *waitingCurrent = NULL;
 
-void *PrintHello(void *threadid)
-{
- long tid;
- tid = (long)threadid;
- printf("Hello World! It's me, thread #%ld!\n", tid);
- pthread_exit(NULL);
-}
-
 
 //adds a train to the loading queue
 struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *loadingCurrent, struct Train tempTrain){ 
@@ -74,7 +67,6 @@ struct loading* addToLoadingQueue(struct loading *loadingHead, struct loading *l
 
   return loadingHead;
 }
-
 
 //reads file and puts trains in the loading queue
 struct loading* readFile(struct loading *loadingHead,  struct loading *loadingCurrent, char const* const fileName){
@@ -134,46 +126,6 @@ long getTrainCount (struct loading *loadingHead, struct loading *loadingCurrent,
   return trainCount;
 }
 
-//prints the trains in the waiting queue
-void printWaiting (struct waiting *waitingHead, struct waiting *waitingCurrent){
-
-  printf("Trains in Waiting Queue:\n");
-
-  waitingCurrent = waitingHead;
-
-  printf("%ld ",(waitingCurrent->train.id));
-  printf("%c ",(waitingCurrent->train.direction));
-  printf("%ld ",(waitingCurrent->train.loadTime));
-  printf("%ld\n",waitingCurrent->train.crossTime);
-  while(waitingCurrent->next != NULL){
-    waitingCurrent = waitingCurrent->next;
-    printf("%ld ",(waitingCurrent->train.id));
-    printf("%c ",waitingCurrent->train.direction);
-    printf("%ld ",waitingCurrent->train.loadTime);
-    printf("%ld\n",waitingCurrent->train.crossTime);
-  }
-}
-
-//prints the trains in the loading queue
-void printLoading (struct loading *loadingHead, struct loading *loadingCurrent){
-
-  printf( "\n");
-  printf("Trains in Loading Queue:\n");
-
-  loadingCurrent = loadingHead;
-
-  printf("%ld ",(loadingCurrent->train.id));
-  printf("%c ",(loadingCurrent->train.direction));
-  printf("%ld ",(loadingCurrent->train.loadTime));
-  printf("%ld\n",loadingCurrent->train.crossTime);
-  while(loadingCurrent->next != NULL){
-    loadingCurrent = loadingCurrent->next;
-    printf("%ld ",(loadingCurrent->train.id));
-    printf("%c ",loadingCurrent->train.direction);
-    printf("%ld ",loadingCurrent->train.loadTime);
-    printf("%ld\n",loadingCurrent->train.crossTime);
-  }
-}
 
 //adds trains to the waiting queue
 void * addToWaitingQueue(void* arg){
@@ -213,7 +165,7 @@ void * addToWaitingQueue(void* arg){
   return NULL;
 }
 
-long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){
+long int dispatcher(struct waiting *waitingHead, struct waiting *waitingCurrent, long int trainCount, bool dispatch[]){ //dispatches trains
   long int minID = trainCount; 
   long int currentBestID;
   long int currentLowestLoadingTime; 
@@ -301,12 +253,11 @@ int main(int argc, char *argv[]){
   t = 1; 
   while(1){
     printf("In main: creating thread %ld\n", t);
-    rc = pthread_create(&threads[t], NULL, addToWaitingQueue, &(loadingCurrent->train));
+    rc = pthread_create(&threads[t], NULL, addToWaitingQueue, &(loadingCurrent->train)); //create the threads
     if (rc){
       printf("ERROR; return code from pthread_create() is %d\n", rc);
       exit(-1);
     }
-    //printWaiting(waitingHead,waitingCurrent);
 
     if(loadingCurrent->next ==NULL){
       break;
@@ -315,7 +266,7 @@ int main(int argc, char *argv[]){
     t++;
   }
 
-  while(trainsLeft>1){
+  while(trainsLeft>1){ //dispatch the trains
       while(trainsWaiting>0 && track == false){
           while(!dispatchReady){
             pthread_cond_wait (&dispatchCond, &dispatchLock);//wait
@@ -333,17 +284,11 @@ int main(int argc, char *argv[]){
         dispatchReady = true;
       }
   }
-  for(int counter = 0; counter<trainCount; counter++){
+  for(int counter = 0; counter<trainCount; counter++){ //dispatch last train
     if(dispatch[counter]==false){
-      printf("Dispatching: %ld\n", counter);
-
+      printf("Dispatching: %d\n", counter);
     }
   }
    
-
-
-    //pthread_join(threads[t],NULL);
-
-
   pthread_exit(NULL);
 }
