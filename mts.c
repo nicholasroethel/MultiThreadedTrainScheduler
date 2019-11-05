@@ -333,8 +333,13 @@ int main(int argc, char *argv[]){
         dispatchReady = true;
       }
   }
-   done = dispatcher(waitingHead, waitingCurrent, trainCount, dispatch);
-   printf("Dispatching: %ld\n", done);
+  for(int counter = 0; counter<trainCount; counter++){
+    if(dispatch[counter]==false){
+      printf("Dispatching: %ld\n", counter);
+
+    }
+  }
+   
 
 
     //pthread_join(threads[t],NULL);
